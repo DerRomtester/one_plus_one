@@ -33,6 +33,10 @@ endif
 endif
 endif
 
+ifeq ($(COMPILER),clang)
+lib-y += eabi.o
+endif
+
 # using lib_ here won't override already available weak symbols
 obj-$(CONFIG_UACCESS_WITH_MEMCPY) += uaccess_with_memcpy.o
 
