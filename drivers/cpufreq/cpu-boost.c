@@ -43,6 +43,9 @@ static struct workqueue_struct *cpu_boost_wq;
 
 static struct work_struct input_boost_work;
 
+static unsigned int cpu_boost = 1;
+module_param(cpu_boost, uint, 0644);
+
 static unsigned int boost_ms;
 module_param(boost_ms, uint, 0644);
 
@@ -174,7 +177,7 @@ static void run_boost_migration(unsigned int cpu)
 		cpufreq_update_policy(src_cpu);
 	if (cpu_online(dest_cpu)) {
 		cpufreq_update_policy(dest_cpu);
-		queue_delayed_work_on(dest_cpu, cpu_boost_wq,
+		queue_delayed_work_on(0, cpu_boost_wq,
 			&s->boost_rem, msecs_to_jiffies(boost_ms));
 	} else {
 		s->boost_min = 0;
@@ -182,11 +185,30 @@ static void run_boost_migration(unsigned int cpu)
 	put_online_cpus();
 }
 
+static void cpuboost_set_prio(unsigned int policy, unsigned int prio)
+{
+	struct sched_param param = { .sched_priority = prio };
+
+	sched_setscheduler(current, policy, &param);
+}
+
+static void cpuboost_park(unsigned int cpu)
+{
+	cpuboost_set_prio(SCHED_NORMAL, 0);
+}
+
+static void cpuboost_unpark(unsigned int cpu)
+{
+	cpuboost_set_prio(SCHED_FIFO, MAX_RT_PRIO - 1);
+}
+
 static struct smp_hotplug_thread cpuboost_threads = {
 	.store		= &thread,
 	.thread_should_run = boost_migration_should_run,
 	.thread_fn	= run_boost_migration,
 	.thread_comm	= "boost_sync/%u",
+	.park		= cpuboost_park,
+	.unpark		= cpuboost_unpark,
 };
 
 static int boost_migration_notify(struct notifier_block *nb,
@@ -232,9 +254,10 @@ static void do_input_boost(struct work_struct *work)
 			continue;
 
 		cancel_delayed_work_sync(&i_sync_info->input_boost_rem);
-		i_sync_info->input_boost_min = input_boost_freq;
+		i_sync_info->input_boost_min
+			= min(input_boost_freq, policy.max);
 		cpufreq_update_policy(i);
-		queue_delayed_work_on(i_sync_info->cpu, cpu_boost_wq,
+		queue_delayed_work_on(0, cpu_boost_wq,
 			&i_sync_info->input_boost_rem,
 			msecs_to_jiffies(input_boost_ms));
 	}
@@ -246,11 +269,14 @@ static void cpuboost_input_event(struct input_handle *handle,
 {
 	u64 now;
 
+	if (!cpu_boost)
+		return;
+
 	if (!input_boost_freq)
 		return;
 
 	now = ktime_to_us(ktime_get());
-	if (now - last_input_time < MIN_INPUT_INTERVAL)
+	if (now - last_input_time < (input_boost_ms * USEC_PER_MSEC))
 		return;
 
 	if (work_pending(&input_boost_work))
@@ -336,8 +362,6 @@ static int cpu_boost_init(void)
 	int cpu, ret;
 	struct cpu_sync *s;
 
-	cpufreq_register_notifier(&boost_adjust_nb, CPUFREQ_POLICY_NOTIFIER);
-
 	cpu_boost_wq = alloc_workqueue("cpuboost_wq", WQ_HIGHPRI, 0);
 	if (!cpu_boost_wq)
 		return -EFAULT;
@@ -351,6 +375,7 @@ static int cpu_boost_init(void)
 		INIT_DELAYED_WORK(&s->boost_rem, do_boost_rem);
 		INIT_DELAYED_WORK(&s->input_boost_rem, do_input_boost_rem);
 	}
+	cpufreq_register_notifier(&boost_adjust_nb, CPUFREQ_POLICY_NOTIFIER);
 	atomic_notifier_chain_register(&migration_notifier_head,
 					&boost_migration_nb);
 
