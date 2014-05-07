@@ -1976,7 +1976,6 @@ static int adreno_stop(struct kgsl_device *device)
 	adreno_dev->drawctxt_active = NULL;
 
 	adreno_dispatcher_stop(adreno_dev);
-	adreno_ringbuffer_stop(&adreno_dev->ringbuffer);
 
 	device->ftbl->irqctrl(device, 0);
 	kgsl_pwrctrl_irq(device, KGSL_PWRFLAGS_OFF);
@@ -2724,9 +2723,6 @@ int adreno_soft_reset(struct kgsl_device *device)
 		kgsl_context_put(&adreno_dev->drawctxt_active->base);
 
 	adreno_dev->drawctxt_active = NULL;
-
-	/* Stop the ringbuffer */
-	adreno_ringbuffer_stop(&adreno_dev->ringbuffer);
 
 	if (kgsl_pwrctrl_isenabled(device))
 		device->ftbl->irqctrl(device, 0);
