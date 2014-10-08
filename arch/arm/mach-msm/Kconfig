@@ -3056,4 +3056,9 @@ config HAS_MACH_MEMUTILS
 	help
 	Faster memcpy performance for Krait
 
+config PVS_LEVEL_INTERFACE
+	bool "Expose PVS level information in sys fs (Boeffla-Kernel)"
+	help
+	 Allow PVS level to be shown in Boeffla-Config app
+
 endif
