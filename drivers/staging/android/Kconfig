@@ -103,6 +103,14 @@ config ANDROID_BG_SCAN_MEM
 	  background task groups, we can trigger low memory killer to scan
 	  memory and decide whether it needs to reclaim memory by killing tasks.
 
+config ANDROID_LMK_ADJ_RBTREE
+	bool "Use RBTREE for Android Low Memory Killer"
+	depends on ANDROID_LOW_MEMORY_KILLER
+	default y
+	---help---
+	    Use oom_score_adj rbtree to select the best proecss to kill
+	    when system in low memory status.
+
 endif # if ANDROID
 
 endmenu
