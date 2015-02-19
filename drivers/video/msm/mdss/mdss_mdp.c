@@ -760,6 +760,7 @@ static int mdss_mdp_idle_pc_restore(void)
 	mdss_iommu_ctrl(0);
 	mdss_mdp_ctl_restore();
 	mdata->idle_pc = false;
+	mdss_iommu_ctrl(0);
 
 end:
 	mutex_unlock(&mdp_fs_idle_pc_lock);
