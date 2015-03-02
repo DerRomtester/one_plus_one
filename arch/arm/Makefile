@@ -24,6 +24,14 @@ KBUILD_CFLAGS	+=$(call cc-option,-marm,)
 # Never generate .eh_frame
 KBUILD_CFLAGS	+= $(call cc-option,-fno-dwarf2-cfi-asm)
 
+ifeq ($(COMPILER),clang)
+# Clang options
+ifneq ($(CROSS_COMPILE),)
+KBUILD_CPPFLAGS	+= -target $(CROSS_COMPILE:-=)
+endif
+KBUILD_CFLAGS   += -fno-builtin -Wno-asm-operand-widths
+endif
+
 # Do not use arch/arm/defconfig - it's always outdated.
 # Select a platform tht is kept up-to-date
 KBUILD_DEFCONFIG := versatile_defconfig
