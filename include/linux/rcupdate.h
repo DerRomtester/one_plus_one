@@ -915,7 +915,7 @@ void __kfree_rcu(struct rcu_head *head, unsigned long offset)
 {
 	typedef void (*rcu_callback)(struct rcu_head *);
 
-	BUILD_BUG_ON(__builtin_constant_p(offset));
+	BUILD_BUG_ON(!__builtin_constant_p(offset));
 
 	/* See the kfree_rcu() header comment. */
 	BUILD_BUG_ON(!__is_kfree_rcu_offset(offset));
