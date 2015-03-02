@@ -193,7 +193,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH           ?= arm
-CROSS_COMPILE  ?= $(CCACHE) ../arm-eabi-5.0/bin/arm-eabi-
+CROSS_COMPILE  ?= $(CCACHE) $(CONFIG_CROSS_COMPILE:"%"=%)
 CCACHE 	       ?= ccache
 
 # Architecture as present in compile.h
@@ -246,12 +246,12 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -pipe -DNDEBUG -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
-HOSTCXXFLAGS = -pipe -DNDEBUG -O3 -fgcse-las -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -pipe -DNDEBUG 
+HOSTCXXFLAGS = -pipe -DNDEBUG -O3 
 
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS += -Wno-unused-value -Wno-unused-parameter \
-	      -Wno-missing-field-initializers -fno-delete-null-pointer-checks
+	      -Wno-missing-field-initializers
 endif
 
 # Decide whether to build built-in, modular, or both.
@@ -345,10 +345,8 @@ include $(srctree)/scripts/Kbuild.include
 AS		= $(CCACHE) $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
 CC 		= $(CCACHE) $(CROSS_COMPILE)gcc
-CC		+= $(KERNELFLAGS) -O3 -mfpu=neon-vfpv4
 LDFINAL		= $(LD)
 CPP		= $(CC) -E
-CPP		+= $(KERNELFLAGS)
 ifdef CONFIG_LTO
 AR		= $(CROSS_COMPILE)gcc-ar
 else
@@ -368,7 +366,6 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-KERNELFLAGS	= -pipe -DNDEBUG -O3 -ffast-math -mtune=cortex-a15 -mcpu=cortex-a15 -marm -mfpu=neon-vfpv4 -ftree-vectorize -mvectorize-with-neon-quad -munaligned-access -fgcse-lm -fgcse-sm -fsingle-precision-constant -fforce-addr -fsched-spec-load -funroll-loops -fpredictive-commoning -fgraphite -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten
 MODFLAGS	= -DMODULE $(KERNELFLAGS)
 CFLAGS_MODULE   = $(MODFLAGS)
 AFLAGS_MODULE   = $(MODFLAGS)
@@ -613,6 +610,8 @@ KBUILD_CPPFLAGS += $(call cc-option,-Wno-unknown-warning-option,)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-variable)
 KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
+KBUILD_CFLAGS += $(call cc-disable-warning, -Wno-maybe-uninitialized)
+
 # Quiet clang warning: comparison of unsigned expression < 0 is always false
 KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
 # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
