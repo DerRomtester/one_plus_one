@@ -2205,7 +2205,7 @@ int main(int argc, char **argv)
 	err = 0;
 
 	for (mod = modules; mod; mod = mod->next) {
-		char fname[PATH_MAX];
+		char fname[strlen(mod->name) + 10];
 
 		if (mod->skip)
 			continue;
