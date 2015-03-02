@@ -365,7 +365,7 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-KERNELFLAGS	= -03 -mtune=cortex-a15 -mcpu=cortex-a15
+KERNELFLAGS	= -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 
 MODFLAGS	= -DMODULE $(KERNELFLAGS)
 CFLAGS_MODULE   = $(MODFLAGS)
 AFLAGS_MODULE   = $(MODFLAGS)
