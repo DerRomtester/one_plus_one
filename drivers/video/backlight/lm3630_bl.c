@@ -31,6 +31,10 @@
 #ifdef CONFIG_MACH_OPPO
 #include <linux/boot_mode.h>
 #endif //CONFIG_MACH_OPPO
+#ifdef CONFIG_LCD_NOTIFY
+#include <linux/lcd_notify.h>
+#endif
+
 #define REG_CTRL	0x00
 #define REG_CONFIG	0x01
 #define REG_BRT_A	0x03
@@ -201,6 +205,23 @@ static int lm3630_intr_config(struct lm3630_chip_data *pchip)
 	int ret;
 	struct lm3630_chip_data *pchip = lm3630_pchip;
 	pr_debug("%s: bl=%d\n", __func__,bl_level);
+
+#ifdef CONFIG_LCD_NOTIFY
+	// LDC notifier
+	// if display is switched off
+	if (bl_level == 0) 
+	{
+		lcd_notifier_call_chain(LCD_EVENT_OFF_START);
+		lcd_notifier_call_chain(LCD_EVENT_OFF_END);
+	}
+	// if display is switched on
+	if (bl_level != 0 && pre_brightness == 0) 
+	{
+		lcd_notifier_call_chain(LCD_EVENT_ON_START);
+		lcd_notifier_call_chain(LCD_EVENT_ON_END);
+	}
+#endif
+	
 #ifdef CONFIG_MACH_OPPO
 /* Xiaori.Yuan@Mobile Phone Software Dept.Driver, 2014/04/28  Add for add log for 14001 black screen */
 		if(pre_brightness == 0)
