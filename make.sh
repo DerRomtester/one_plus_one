@@ -12,8 +12,7 @@ DATE_START=$(date +"%s")
 make clean && make mrproper
 
 make Tyr_defconfig
-
-make -j8 ARCH=arm SUBARCH=arm CROSS_COMPILE=/home/stefan/Kernel/arm-eabi-4.9/bin/arm-eabi- HOSTCC=/usr/lib/llvm-3.7/bin/clang HOSTCXX=/usr/lib/llvm-3.7/bin/clang++  
+make -j8 ARCH=arm SUBARCH=arm CC=clang HOSTCC=clang
 
 echo "End of compiling kernel!"
 
