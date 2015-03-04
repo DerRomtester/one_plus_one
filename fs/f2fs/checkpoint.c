@@ -1052,7 +1052,7 @@ void write_checkpoint(struct f2fs_sb_info *sbi, struct cp_control *cpc)
 	mutex_lock(&sbi->cp_mutex);
 
 	if (!is_sbi_flag_set(sbi, SBI_IS_DIRTY) &&
-			cpc->reason != CP_DISCARD && cpc->reason != CP_UMOUNT)
+		(cpc->reason == CP_FASTBOOT || cpc->reason == CP_SYNC))
 		goto out;
 	if (unlikely(f2fs_cp_error(sbi)))
 		goto out;
@@ -1087,6 +1087,10 @@ void write_checkpoint(struct f2fs_sb_info *sbi, struct cp_control *cpc)
 
 	unblock_operations(sbi);
 	stat_inc_cp_count(sbi->stat_info);
+
+	if (cpc->reason == CP_RECOVERY)
+		f2fs_msg(sbi->sb, KERN_NOTICE,
+			"checkpoint: version = %llx", ckpt_ver);
 out:
 	mutex_unlock(&sbi->cp_mutex);
 	trace_f2fs_write_checkpoint(sbi->sb, cpc->reason, "finish checkpoint");
@@ -1105,13 +1109,6 @@ void init_ino_entry_info(struct f2fs_sb_info *sbi)
 		im->ino_num = 0;
 	}
 
-	/*
-	 * considering 512 blocks in a segment 8+cp_payload blocks are
-	 * needed for cp and log segment summaries. Remaining blocks are
-	 * used to keep orphan entries with the limitation one reserved
-	 * segment for cp pack we can have max 1020*(504-cp_payload)
-	 * orphan entries
-	 */
 	sbi->max_orphans = (sbi->blocks_per_seg - F2FS_CP_PACKS -
 			NR_CURSEG_TYPE - __cp_payload(sbi)) *
 				F2FS_ORPHANS_PER_BLOCK;
