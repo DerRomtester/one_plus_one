@@ -330,11 +330,11 @@ static void __ref hotplug_work_fn(struct work_struct *work)
 				hotplug_tuners_ins.hotplug_sampling_rate));
 }
 
-
 static void __alucard_hotplug_suspend(void)
 {
 	if (hotplug_tuners_ins.hotplug_enable > 0
-		&& hotplug_tuners_ins.hotplug_suspend == 1) {
+				&& hotplug_tuners_ins.hotplug_suspend == 1 &&
+				hotplug_tuners_ins.suspended == false) {
 			mutex_lock(&hotplug_tuners_ins.alu_hotplug_mutex);
 			hotplug_tuners_ins.suspended = true;
 			mutex_unlock(&hotplug_tuners_ins.alu_hotplug_mutex);
@@ -342,7 +342,6 @@ static void __alucard_hotplug_suspend(void)
 	}
 	stop_rq_work();
 }
-
 
 static void __ref __alucard_hotplug_resume(void)
 {
@@ -358,6 +357,8 @@ static void __ref __alucard_hotplug_resume(void)
 	start_rq_work();
 }
 
+static int prev_fb = FB_BLANK_UNBLANK;
+
 static int fb_notifier_callback(struct notifier_block *self,
 				unsigned long event, void *data)
 {
@@ -368,15 +369,18 @@ static int fb_notifier_callback(struct notifier_block *self,
 		blank = evdata->data;
 		switch (*blank) {
 			case FB_BLANK_UNBLANK:
-				/* display on */
-				__alucard_hotplug_resume();
+				if (prev_fb == FB_BLANK_POWERDOWN) {
+					/* display on */
+					__alucard_hotplug_resume();
+					prev_fb = FB_BLANK_UNBLANK;
+				}
 				break;
 			case FB_BLANK_POWERDOWN:
-			case FB_BLANK_HSYNC_SUSPEND:
-			case FB_BLANK_VSYNC_SUSPEND:
-			case FB_BLANK_NORMAL:
-				/* display off */
-				__alucard_hotplug_suspend();
+				if (prev_fb == FB_BLANK_UNBLANK) {
+					/* display off */
+					__alucard_hotplug_suspend();
+					prev_fb = FB_BLANK_POWERDOWN;
+				}
 				break;
 		}
 	}
