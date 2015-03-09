@@ -28,7 +28,7 @@
 #include <linux/tick.h>
 
 #define MSM_HOTPLUG			"msm_hotplug"
-#define HOTPLUG_ENABLED			1
+#define HOTPLUG_ENABLED			0
 #define DEFAULT_UPDATE_RATE		HZ / 10
 #define START_DELAY			HZ * 5
 #define MIN_INPUT_INTERVAL		150 * 1000L
@@ -36,7 +36,7 @@
 #define DEFAULT_DOWN_LOCK_DUR		1000
 #define DEFAULT_BOOST_LOCK_DUR		500 * 1000L
 #define DEFAULT_NR_CPUS_BOOSTED		2
-#define DEFAULT_MIN_CPUS_ONLINE		4
+#define DEFAULT_MIN_CPUS_ONLINE		1
 #define DEFAULT_MAX_CPUS_ONLINE		NR_CPUS
 /* cur_avg_load can be > 200! */
 #define DEFAULT_FAST_LANE_LOAD		180
