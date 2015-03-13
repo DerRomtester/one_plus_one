@@ -240,9 +240,8 @@ static void __ref decide_hotplug_func(struct work_struct *work)
 	 * reschedule early when users desire to run with all cores online
 	 */
 	if (unlikely(!t->load_threshold &&
-			online_cpus == NUM_POSSIBLE_CPUS)) {
+			online_cpus == NUM_POSSIBLE_CPUS))
 		goto reschedule;
-	}
 
 	for (cpu = 0; cpu < t->min_cores_online; cpu++)
 		cur_load += cpufreq_quick_get_util(cpu);
@@ -263,7 +262,7 @@ static void __ref decide_hotplug_func(struct work_struct *work)
 			cpu_smash(cur_load);
 	}
 
-	queue_delayed_work_on(0, system_wq, &decide_hotplug,
+	queue_delayed_work(system_wq, &decide_hotplug,
 		msecs_to_jiffies(t->timer * HZ));
 
 	return;
@@ -302,7 +301,7 @@ static int lcd_notifier_callback(struct notifier_block *this,
 			 * let's start messing with the cores only after
 			 * the device has booted up
 			 */
-			queue_delayed_work_on(0, system_wq, &decide_hotplug, 0);
+			queue_delayed_work(system_wq, &decide_hotplug, 0);
 			stats.booted = true;
 		} else
 			queue_work_on(0, system_wq, &resume);
