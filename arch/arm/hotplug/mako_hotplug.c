@@ -111,7 +111,6 @@ struct hotplug_tunables {
 	unsigned int min_cores_online;
 } tunables;
 
-static struct workqueue_struct *wq;
 static struct delayed_work decide_hotplug;
 static struct work_struct suspend, resume;
 
@@ -264,7 +263,7 @@ static void __ref decide_hotplug_func(struct work_struct *work)
 			cpu_smash(cur_load);
 	}
 
-	queue_delayed_work_on(0, wq, &decide_hotplug,
+	queue_delayed_work_on(0, system_wq, &decide_hotplug,
 		msecs_to_jiffies(t->timer * HZ));
 
 	return;
@@ -276,7 +275,7 @@ reschedule:
 	 * we don't need to run this work every 100ms, but rather just
 	 * once every second
 	 */
-	queue_delayed_work(wq, &decide_hotplug, HZ);
+	queue_delayed_work(system_wq, &decide_hotplug, HZ);
 }
 
 static void mako_hotplug_suspend(struct work_struct *work)
@@ -303,12 +302,12 @@ static int lcd_notifier_callback(struct notifier_block *this,
 			 * let's start messing with the cores only after
 			 * the device has booted up
 			 */
-			queue_delayed_work_on(0, wq, &decide_hotplug, 0);
+			queue_delayed_work_on(0, system_wq, &decide_hotplug, 0);
 			stats.booted = true;
 		} else
-			queue_work_on(0, wq, &resume);
+			queue_work_on(0, system_wq, &resume);
 	} else if (event == LCD_EVENT_OFF_START)
-		queue_work_on(0, wq, &suspend);
+		queue_work_on(0, system_wq, &suspend);
 
 	return NOTIFY_OK;
 }
@@ -555,13 +554,6 @@ static int __devinit mako_hotplug_probe(struct platform_device *pdev)
 	int ret = 0;
 	struct hotplug_tunables *t = &tunables;
 
-	wq = alloc_workqueue("mako_hotplug_workqueue", WQ_FREEZABLE, 1);
-
-	if (!wq) {
-		ret = -ENOMEM;
-		goto err;
-	}
-
 	t->enabled = DEFAULT_HOTPLUG_ENABLED;
 	t->load_threshold = DEFAULT_LOAD_THRESHOLD;
 	t->high_load_counter = DEFAULT_HIGH_LOAD_COUNTER;
@@ -604,16 +596,8 @@ static struct platform_device mako_hotplug_device = {
 	.id = -1,
 };
 
-static int mako_hotplug_remove(struct platform_device *pdev)
-{
-	destroy_workqueue(wq);
-
-	return 0;
-}
-
 static struct platform_driver mako_hotplug_driver = {
 	.probe = mako_hotplug_probe,
-	.remove = mako_hotplug_remove,
 	.driver = {
 		.name = MAKO_HOTPLUG,
 		.owner = THIS_MODULE,
