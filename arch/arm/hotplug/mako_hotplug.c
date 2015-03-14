@@ -322,7 +322,7 @@ static ssize_t make_hotplug_enabled_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->enabled);
+	return snprintf(buf, 10, "%u\n", t->enabled);
 }
 
 static ssize_t make_hotplug_enabled_store(struct device *dev,
@@ -346,7 +346,7 @@ static ssize_t load_threshold_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->load_threshold);
+	return snprintf(buf, 10, "%u\n", t->load_threshold);
 }
 
 static ssize_t load_threshold_store(struct device *dev,
@@ -370,7 +370,7 @@ static ssize_t high_load_counter_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->high_load_counter);
+	return snprintf(buf, 10, "%u\n", t->high_load_counter);
 }
 
 static ssize_t high_load_counter_store(struct device *dev,
@@ -394,7 +394,7 @@ static ssize_t max_load_counter_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->max_load_counter);
+	return snprintf(buf, 10, "%u\n", t->max_load_counter);
 }
 
 static ssize_t max_load_counter_store(struct device *dev,
@@ -418,7 +418,7 @@ static ssize_t cpufreq_unplug_limit_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->cpufreq_unplug_limit);
+	return snprintf(buf, 10, "%u\n", t->cpufreq_unplug_limit);
 }
 
 static ssize_t cpufreq_unplug_limit_store(struct device *dev,
@@ -442,7 +442,7 @@ static ssize_t min_time_cpu_online_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->min_time_cpu_online);
+	return snprintf(buf, 10, "%u\n", t->min_time_cpu_online);
 }
 
 static ssize_t min_time_cpu_online_store(struct device *dev,
@@ -466,7 +466,7 @@ static ssize_t timer_show(struct device *dev, struct device_attribute *attr,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->timer);
+	return snprintf(buf, 10, "%u\n", t->timer);
 }
 
 static ssize_t timer_store(struct device *dev, struct device_attribute *attr,
@@ -490,7 +490,7 @@ static ssize_t min_cores_online_show(struct device *dev,
 {
 	struct hotplug_tunables *t = &tunables;
 
-	return snprintf(buf, PAGE_SIZE, "%u\n", t->min_cores_online);
+	return snprintf(buf, 10, "%u\n", t->min_cores_online);
 }
 
 static ssize_t min_cores_online_store(struct device *dev,
