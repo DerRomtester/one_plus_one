@@ -43,7 +43,7 @@ static struct workqueue_struct *cpu_boost_wq;
 
 static struct work_struct input_boost_work;
 
-static unsigned int cpu_boost = 1;
+static unsigned int cpu_boost = 0;
 module_param(cpu_boost, uint, 0644);
 
 static unsigned int boost_ms;
