@@ -14,7 +14,7 @@ make clean && make mrproper
 export ARCH=arm
 export SUBARCH=arm
 make Tyr_defconfig
-make -j8
+make -j8 -s
 echo "End of compiling kernel!"
 
 DATE_END=$(date +"%s")
