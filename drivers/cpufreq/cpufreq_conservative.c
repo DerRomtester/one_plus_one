@@ -348,7 +348,7 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 
 	policy = this_dbs_info->cur_policy;
 	now = ktime_to_us(ktime_get());
-	boosted = now < (get_input_time() + dbs_tuners_ins.input_boost_duration);
+	boosted = now < (dbs_tuners_ins.input_boost_duration);
 
 	/*
 	 * Every sampling_rate, we check, if current idle time is less
