@@ -193,7 +193,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH           ?= arm
-CROSS_COMPILE  ?= $(CCACHE) ../arm-eabi-4.9/bin/arm-eabi-
+CROSS_COMPILE  ?= $(CCACHE) ../arm-eabi-5.0/bin/arm-eabi-
 CCACHE 	       ?= ccache
 
 # Architecture as present in compile.h
