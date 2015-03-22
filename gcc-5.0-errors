@@ -1,0 +1,661 @@
+Cleaning old files
+Making oneplus one kernel
+  CLEAN   .
+  CLEAN   arch/arm/kernel
+  CLEAN   kernel
+  CLEAN   security/selinux
+  CLEAN   usr
+  CLEAN   arch/arm/boot
+  CLEAN   .tmp_versions
+  CLEAN   scripts/basic
+  CLEAN   scripts/dtc
+  CLEAN   scripts/kconfig
+  CLEAN   scripts/mod
+  CLEAN   scripts/selinux/genheaders
+  CLEAN   scripts/selinux/mdp
+  CLEAN   scripts
+  CLEAN   include/config include/generated arch/arm/include/generated
+  CLEAN   .config include/linux/version.h
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  SHIPPED scripts/kconfig/zconf.tab.c
+  SHIPPED scripts/kconfig/zconf.lex.c
+  SHIPPED scripts/kconfig/zconf.hash.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
+  Generating include/generated/mach-types.h
+Warning (reg_format): "reg" property in /soc/spi@f9923000 is empty
+mm/page_alloc.c: In function 'get_page_from_freelist':
+mm/page_alloc.c:1713:29: warning: array subscript is above array bounds [-Warray-bounds]
+   free_pages -= z->free_area[o].nr_free << o;
+                             ^
+mm/shmem.c: In function 'shmem_truncate_range':
+mm/shmem.c:398:34: warning: array subscript is above array bounds [-Warray-bounds]
+   struct page *page = pvec->pages[i];
+                                  ^
+mm/shmem.c:398:34: warning: array subscript is above array bounds [-Warray-bounds]
+   struct page *page = pvec->pages[i];
+                                  ^
+mm/shmem.c: In function 'shmem_unlock_mapping':
+mm/shmem.c:398:34: warning: array subscript is above array bounds [-Warray-bounds]
+   struct page *page = pvec->pages[i];
+                                  ^
+mm/rmap.c:575:26: warning: 'is_vm_hugetlb_page' is static but used in inline function 'vma_address' which is not static
+  if (unlikely(is_vm_hugetlb_page(vma)))
+                          ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/apr.c:29:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from arch/arm/mach-msm/qdsp6v2/apr_v2.c:18:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from arch/arm/mach-msm/qdsp6v2/voice_svc.c:24:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/aac_in.c:25:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/qcelp_in.c:25:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+fs/f2fs/segment.c: In function 'flush_sit_entries':
+fs/f2fs/segment.c:1674:45: warning: array subscript is above array bounds [-Warray-bounds]
+    if (le32_to_cpu(segno_in_journal(sum, i)) == val)
+                                             ^
+fs/f2fs/segment.c: In function 'build_segment_manager':
+fs/f2fs/segment.c:2054:46: warning: array subscript is above array bounds [-Warray-bounds]
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/evrc_in.c:25:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/amrnb_in.c:25:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.c:24:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_wma.c:20:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_wmapro.c:20:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_aac.c:19:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_multi_aac.c:20:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.c:27:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+kernel/kexec.c: In function 'do_kimage_alloc':
+kernel/kexec.c:197:27: warning: array subscript is above array bounds [-Warray-bounds]
+    pstart = image->segment[j].mem;
+                           ^
+kernel/kexec.c:198:34: warning: array subscript is above array bounds [-Warray-bounds]
+    pend   = pstart + image->segment[j].memsz;
+                                  ^
+kernel/kexec.c: In function 'kimage_alloc_page':
+kernel/kexec.c:349:26: warning: array subscript is above array bounds [-Warray-bounds]
+   mstart = image->segment[i].mem;
+                          ^
+kernel/kexec.c:350:33: warning: array subscript is above array bounds [-Warray-bounds]
+   mend = mstart + image->segment[i].memsz;
+                                 ^
+kernel/kexec.c: In function 'kimage_alloc_control_pages':
+kernel/kexec.c:349:26: warning: array subscript is above array bounds [-Warray-bounds]
+   mstart = image->segment[i].mem;
+                          ^
+kernel/kexec.c:350:33: warning: array subscript is above array bounds [-Warray-bounds]
+   mend = mstart + image->segment[i].memsz;
+                                 ^
+kernel/kexec.c:507:27: warning: array subscript is above array bounds [-Warray-bounds]
+    mstart = image->segment[i].mem;
+                           ^
+kernel/kexec.c:508:34: warning: array subscript is above array bounds [-Warray-bounds]
+    mend   = mstart + image->segment[i].memsz - 1;
+                                  ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_v2.c:24:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_v2_aio.c:24:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from arch/arm/mach-msm/qdsp6v2/msm_audio_ion.c:21:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_mp3.c:18:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_amrnb.c:17:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+fs/fat/namei_vfat.c: In function 'vfat_add_entry':
+fs/fat/namei_vfat.c:385:18: warning: array subscript is above array bounds [-Warray-bounds]
+    *p++ = charbuf[chi];
+                  ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_amrwb.c:18:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_amrwbplus.c:18:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_evrc.c:18:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils_aio.h:30,
+                 from arch/arm/mach-msm/qdsp6v2/audio_qcelp.c:18:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/q6audio_common.h:22,
+                 from arch/arm/mach-msm/qdsp6v2/audio_utils.h:14,
+                 from arch/arm/mach-msm/qdsp6v2/amrwb_in.c:24:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from arch/arm/mach-msm/qdsp6v2/adsp-loader.c:21:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from arch/arm/mach-msm/qdsp6v2/ultrasound/version_b/q6usm_b.c:20:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio.h:20:0,
+                 from arch/arm/mach-msm/qdsp6v2/ultrasound/version_b/../usf.c:24:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/codecs/wcd9320.h:17,
+                 from sound/soc/codecs/wcd9320.c:40:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+drivers/cpufreq/cpufreq_interactive.c: In function 'cpufreq_interactive_timer_resched':
+drivers/cpufreq/cpufreq_interactive.c:163:6: warning: unused variable 'now' [-Wunused-variable]
+  u64 now = ktime_to_us(ktime_get());
+      ^
+drivers/cpufreq/cpufreq_interactive.c: In function 'cpufreq_interactive_timer_start':
+drivers/cpufreq/cpufreq_interactive.c:197:6: warning: unused variable 'now' [-Wunused-variable]
+  u64 now = ktime_to_us(ktime_get());
+      ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/codecs/wcd9320.h:17,
+                 from sound/soc/codecs/wcd9320-tables.c:14:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+sound/soc/codecs/wcd9xxx-mbhc.c: In function 'wcd9xxx_mbhc_cal_btn_det_mp':
+sound/soc/codecs/wcd9xxx-mbhc.c:493:14: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-array-qualifiers]
+  void *ret = &btn_det->_v_btn_low;
+              ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/codecs/wcd9320.h:17,
+                 from sound/soc/codecs/wcd9xxx-mbhc.c:39:
+sound/soc/codecs/wcd9xxx-mbhc.c: At top level:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+drivers/cpufreq/cpufreq_intelliactive.c: In function 'show_target_loads':
+drivers/cpufreq/cpufreq_intelliactive.c:842:6: warning: operation on 'ret' may be undefined [-Wsequence-point]
+  ret += sprintf(buf + --ret, "\n");
+      ^
+drivers/cpufreq/cpufreq_intelliactive.c: In function 'show_above_hispeed_delay':
+drivers/cpufreq/cpufreq_intelliactive.c:885:6: warning: operation on 'ret' may be undefined [-Wsequence-point]
+  ret += sprintf(buf + --ret, "\n");
+      ^
+drivers/cpufreq/cpufreq_conservative.c: In function 'show_input_boost_duration':
+drivers/cpufreq/cpufreq_conservative.c:163:122: warning: format '%u' expects argument of type 'unsigned int', but argument 3 has type 'u64 {aka long long unsigned int}' [-Wformat=]
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6afe-v2.h:14,
+                 from sound/soc/msm/msm8974.c:28:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6core.h:15:0,
+                 from sound/soc/msm/qdsp6v2/audio_ocmem.c:34:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-dai-q6-v2.c:25:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6audio-v2.h:16:0,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-q6-v2.c:28:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6afe-v2.h:14,
+                 from include/sound/q6adm-v2.h:20,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-routing-v2.c:27:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from sound/soc/msm/qdsp6v2/msm-compress-q6-v2.c:29:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from sound/soc/msm/qdsp6v2/msm-compr-q6-v2.c:28:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-q6-v2.h:21,
+                 from sound/soc/msm/qdsp6v2/msm-multi-ch-pcm-q6-v2.c:32:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-lpa-v2.c:32:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-afe-v2.c:23:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-q6-v2.h:21,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-voip-v2.c:30:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-voice-v2.h:14,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-voice-v2.c:29:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-dai-q6-hdmi-v2.c:23:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6lsm.h:18,
+                 from sound/soc/msm/qdsp6v2/msm-lsm-client.c:30:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-audio-effects-q6-v2.c:14:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-loopback-v2.c:19:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6afe-v2.h:14,
+                 from sound/soc/msm/qdsp6v2/msm-pcm-dtmf-v2.c:23:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6afe-v2.h:14,
+                 from include/sound/q6adm-v2.h:20,
+                 from sound/soc/msm/qdsp6v2/msm-dolby-dap-config.c:27:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/q6afe.c:20:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/q6adm.c:21:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/q6asm.c:31:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from include/sound/q6afe-v2.h:14,
+                 from sound/soc/msm/qdsp6v2/q6audio-v2.c:19:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/q6voice.c:19:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from sound/soc/msm/qdsp6v2/q6core.c:22:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+drivers/gpu/msm/adreno_ringbuffer.c:278:3: warning: 'adreno_writereg' is static but used in inline function 'adreno_ringbuffer_load_pfp_ucode' which is not static
+   adreno_writereg(adreno_dev, ADRENO_REG_CP_PFP_UCODE_DATA,
+   ^
+drivers/gpu/msm/adreno_ringbuffer.c:276:2: warning: 'adreno_writereg' is static but used in inline function 'adreno_ringbuffer_load_pfp_ucode' which is not static
+  adreno_writereg(adreno_dev, ADRENO_REG_CP_PFP_UCODE_ADDR, addr);
+  ^
+drivers/gpu/msm/adreno_ringbuffer.c:224:3: warning: 'adreno_writereg' is static but used in inline function 'adreno_ringbuffer_load_pm4_ucode' which is not static
+   adreno_writereg(adreno_dev, ADRENO_REG_CP_ME_RAM_DATA,
+   ^
+drivers/gpu/msm/adreno_ringbuffer.c:222:2: warning: 'adreno_writereg' is static but used in inline function 'adreno_ringbuffer_load_pm4_ucode' which is not static
+  adreno_writereg(adreno_dev, ADRENO_REG_CP_ME_RAM_WADDR, addr);
+  ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/audio_acdb.c:21:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/q6asm-v2.h:15:0,
+                 from include/linux/msm_audio_ion.h:17,
+                 from sound/soc/msm/qdsp6v2/rtac.c:23:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from include/sound/apr_audio-v2.h:17:0,
+                 from sound/soc/msm/qdsp6v2/q6lsm.c:26:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+net/ipv4/tcp_input.c: In function 'tcp_sacktag_write_queue':
+net/ipv4/tcp_input.c:1843:17: warning: array subscript is above array bounds [-Warray-bounds]
+    if (after(sp[j].start_seq, sp[j + 1].start_seq)) {
+                 ^
+net/ipv4/tcp_input.c:1844:54: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_pwrctrl.c: In function 'kgsl_pwrctrl_init':
+drivers/gpu/msm/kgsl_pwrctrl.c:1225:34: warning: array subscript is above array bounds [-Warray-bounds]
+     if (vector->ib == pwr->bus_ib[k])
+                                  ^
+drivers/gpu/msm/kgsl_pwrctrl.c:1234:29: warning: array subscript is above array bounds [-Warray-bounds]
+       usecase[pwr->pwrlevels[m].
+                             ^
+drivers/gpu/msm/kgsl_pwrctrl.c:1237:21: warning: array subscript is above array bounds [-Warray-bounds]
+       pwr->bus_index[m] = k;
+                     ^
+sound/usb/midi.c: In function 'snd_usbmidi_akai_output':
+sound/usb/midi.c:716:35: warning: array subscript is above array bounds [-Warray-bounds]
+   for (pos = 0; pos < count && tmp[pos] != 0xF0; pos++)
+                                   ^
+sound/usb/midi.c:725:35: warning: array subscript is above array bounds [-Warray-bounds]
+   for (end = 1; end < count && tmp[end] < 0xF0; end++)
+                                   ^
+drivers/gpu/msm/kgsl_iommu.c:1109:10: warning: 'adreno_add_idle_cmds' is static but used in inline function 'kgsl_iommu_sync_unlock' which is not static
+  cmds += adreno_add_idle_cmds(adreno_dev, cmds);
+          ^
+drivers/gpu/msm/kgsl_iommu.c:1068:10: warning: 'adreno_add_idle_cmds' is static but used in inline function 'kgsl_iommu_sync_lock' which is not static
+  cmds += adreno_add_idle_cmds(adreno_dev, cmds);
+          ^
+drivers/gpu/msm/kgsl_iommu.c:1045:10: warning: 'adreno_add_idle_cmds' is static but used in inline function 'kgsl_iommu_sync_lock' which is not static
+  cmds += adreno_add_idle_cmds(adreno_dev, cmds);
+          ^
+drivers/gpu/msm/kgsl_iommu.c:1027:10: warning: 'adreno_add_idle_cmds' is static but used in inline function 'kgsl_iommu_sync_lock' which is not static
+  cmds += adreno_add_idle_cmds(adreno_dev, cmds);
+          ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_disable_clk':
+drivers/gpu/msm/kgsl_iommu.c:464:33: warning: array subscript is above array bounds [-Warray-bounds]
+    if (ctx_id != iommu_unit->dev[j].ctx_id)
+                                 ^
+drivers/gpu/msm/kgsl_iommu.c:467:69: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:474:21: warning: array subscript is above array bounds [-Warray-bounds]
+      iommu_unit->dev[j].dev->parent);
+                     ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_enable_clk':
+drivers/gpu/msm/kgsl_iommu.c:571:33: warning: array subscript is above array bounds [-Warray-bounds]
+    if (ctx_id != iommu_unit->dev[j].ctx_id)
+                                 ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_pagefault_resume':
+drivers/gpu/msm/kgsl_iommu.c:1872:25: warning: array subscript is above array bounds [-Warray-bounds]
+     if (!iommu_unit->dev[j].attached)
+                         ^
+drivers/gpu/msm/kgsl_iommu.c:1874:24: warning: array subscript is above array bounds [-Warray-bounds]
+     if (iommu_unit->dev[j].fault) {
+                        ^
+drivers/gpu/msm/kgsl_iommu.c:1877:154: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:1881:151: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:1887:21: warning: array subscript is above array bounds [-Warray-bounds]
+      iommu_unit->dev[j].fault = 0;
+                     ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_stop':
+drivers/gpu/msm/kgsl_iommu.c:747:23: warning: array subscript is above array bounds [-Warray-bounds]
+    if (iommu_unit->dev[j].attached) {
+                       ^
+drivers/gpu/msm/kgsl_iommu.c:750:20: warning: array subscript is above array bounds [-Warray-bounds]
+     iommu_unit->dev[j].attached = false;
+                    ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_start':
+drivers/gpu/msm/kgsl_iommu.c:1561:24: warning: array subscript is above array bounds [-Warray-bounds]
+    if (!iommu_unit->dev[j].attached)
+                        ^
+drivers/gpu/msm/kgsl_iommu.c:1583:153: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:1629:24: warning: array subscript is above array bounds [-Warray-bounds]
+    if (!iommu_unit->dev[j].attached)
+                        ^
+drivers/gpu/msm/kgsl_iommu.c:1631:205: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:1638:153: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_fault_handler':
+drivers/gpu/msm/kgsl_iommu.c:124:24: warning: array subscript is above array bounds [-Warray-bounds]
+     &iommu->iommu_units[j];
+                        ^
+drivers/gpu/msm/kgsl_iommu.c:124:24: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/gpu/msm/kgsl_iommu.c:126:24: warning: array subscript is above array bounds [-Warray-bounds]
+     if (iommu_unit->dev[k].dev == dev) {
+                        ^
+drivers/gpu/msm/kgsl_iommu.c: In function 'kgsl_iommu_set_pagefault':
+drivers/gpu/msm/kgsl_iommu.c:2203:34: warning: array subscript is above array bounds [-Warray-bounds]
+    if (!iommu->iommu_units[i].dev[j].attached)
+                                  ^
+drivers/gpu/msm/kgsl_iommu.c:2205:223: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/input/touchscreen/touchboost.c:40:9: warning: 'last_input_time' is static but used in inline function 'get_input_time' which is not static
+  return last_input_time;
+         ^
+drivers/media/platform/msm/camera_oppo_v2/isp/msm_isp_axi_util.c: In function 'msm_isp_axi_reserve_wm':
+drivers/media/platform/msm/camera_oppo_v2/isp/msm_isp_axi_util.c:239:26: warning: array subscript is above array bounds [-Warray-bounds]
+    if (!axi_data->free_wm[j]) {
+                          ^
+drivers/media/platform/msm/camera_oppo_v2/isp/msm_isp_axi_util.c: In function 'msm_isp_process_axi_irq':
+drivers/media/platform/msm/camera_oppo_v2/isp/msm_isp_axi_util.c:758:41: warning: array subscript is above array bounds [-Warray-bounds]
+    (~(pingpong_status >> stream_info->wm[i]) & 0x1)) {
+                                         ^
+drivers/media/platform/msm/camera_oppo_v2/isp/msm_isp_axi_util.c:758:41: warning: array subscript is above array bounds [-Warray-bounds]
+    (~(pingpong_status >> stream_info->wm[i]) & 0x1)) {
+                                         ^
+drivers/media/platform/msm/camera_oppo_v2/ispif/msm_ispif.c: In function 'msm_ispif_intf_cmd':
+drivers/media/platform/msm/camera_oppo_v2/ispif/msm_ispif.c:590:33: warning: array subscript is above array bounds [-Warray-bounds]
+    cid = params->entries[i].cids[k];
+                                 ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:116:6: warning: 'list_empty_careful' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+  if (list_empty_careful(&q_p->q)) {
+      ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:510: warning: 'list_empty_careful' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:387: warning: 'get_current' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:371: warning: 'signal_pending' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:314: warning: 'list_empty_careful' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:140: warning: 'get_current' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:112:53: warning: 'list_empty_careful' is static but used in inline function 'msm_jpeg_q_wait' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:94:10: warning: 'kmalloc' is static but used in inline function 'msm_jpeg_q_in_buf' which is not static
+  buf_p = kmalloc(sizeof(struct msm_jpeg_core_buf), GFP_ATOMIC);
+          ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:83:2: warning: 'spin_unlock_irqrestore' is static but used in inline function 'msm_jpeg_q_in' which is not static
+  spin_unlock_irqrestore(&q_p->lck, flags);
+  ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:82:2: warning: 'list_add_tail' is static but used in inline function 'msm_jpeg_q_in' which is not static
+  list_add_tail(&q_entry_p->list, &q_p->q);
+  ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:81:131: warning: 'spinlock_check' is static but used in inline function 'msm_jpeg_q_in' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:74:14: warning: 'kmalloc' is static but used in inline function 'msm_jpeg_q_in' which is not static
+  q_entry_p = kmalloc(sizeof(struct msm_jpeg_q_entry), GFP_ATOMIC);
+              ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:53:2: warning: 'spin_unlock_irqrestore' is static but used in inline function 'msm_jpeg_q_out' which is not static
+  spin_unlock_irqrestore(&q_p->lck, flags);
+  ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:51:3: warning: 'list_del_init' is static but used in inline function 'msm_jpeg_q_out' which is not static
+   list_del_init(&q_entry_p->list);
+   ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:48:7: warning: 'list_empty' is static but used in inline function 'msm_jpeg_q_out' which is not static
+  if (!list_empty(&q_p->q)) {
+       ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:47:131: warning: 'spinlock_check' is static but used in inline function 'msm_jpeg_q_out' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:36:36: warning: '__key' is static but declared in inline function 'msm_jpeg_q_init' which is not static
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:35:2: warning: 'INIT_LIST_HEAD' is static but used in inline function 'msm_jpeg_q_init' which is not static
+  INIT_LIST_HEAD(&q_p->q);
+  ^
+drivers/media/platform/msm/camera_oppo_v2/jpeg_10/msm_jpeg_sync.c:34:7: warning: 'spinlock_check' is static but used in inline function 'msm_jpeg_q_init' which is not static
+  spin_lock_init(&q_p->lck);
+       ^
+drivers/mmc/host/sdhci-msm.c: In function 'msm_find_most_appropriate_phase':
+drivers/mmc/host/sdhci-msm.c:616:21: warning: array subscript is above array bounds [-Warray-bounds]
+      if (ranges[cnt][i] == 15) {
+                     ^
+drivers/media/video/videobuf2-core.c: In function '__vb2_queue_alloc':
+drivers/media/video/videobuf2-core.c:133:50: warning: array subscript is above array bounds [-Warray-bounds]
+    vb->v4l2_planes[plane].length = q->plane_sizes[plane];
+                                                  ^
+drivers/media/video/videobuf2-core.c:133:19: warning: array subscript is above array bounds [-Warray-bounds]
+    vb->v4l2_planes[plane].length = q->plane_sizes[plane];
+                   ^
+drivers/media/video/videobuf2-core.c:134:19: warning: array subscript is above array bounds [-Warray-bounds]
+    vb->v4l2_planes[plane].m.mem_offset = off;
+                   ^
+drivers/media/video/videobuf2-core.c:139:26: warning: array subscript is above array bounds [-Warray-bounds]
+    off += vb->v4l2_planes[plane].length;
+                          ^
+drivers/media/video/videobuf2-core.c: In function 'vb2_mmap':
+drivers/media/video/videobuf2-core.c:1521:23: warning: array subscript is above array bounds [-Warray-bounds]
+    if (vb->v4l2_planes[plane].m.mem_offset == off) {
+                       ^
+In file included from drivers/media/platform/msm/vidc/q6_hfi.h:16:0,
+                 from drivers/media/platform/msm/vidc/vidc_hfi.c:17:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from drivers/platform/msm/avtimer.c:27:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+In file included from drivers/media/platform/msm/vidc/q6_hfi.c:17:0:
+arch/arm/mach-msm/include/mach/qdsp6v2/apr.h:156:43: warning: inline function 'apr_fill_hdr' declared but never defined
+ inline int apr_fill_hdr(void *handle, uint32_t *buf, uint16_t src_port,
+                                           ^
+drivers/video/msm/mdss/mdss_mdp_pp.c: In function 'mdss_mdp_ad_input':
+drivers/video/msm/mdss/mdss_mdp_pp.c:4306:17: warning: comparison of constant '15' with boolean expression is always false [-Wbool-compare]
+    !input->mode == MDSS_AD_MODE_CALIB) {
+                 ^
+drivers/video/msm/mdss/mdss_mdp_pp.c:4306:17: warning: logical not is only applied to the left hand side of comparison [-Wlogical-not-parentheses]
+drivers/video/msm/mdss/mdss_edp_aux.c: In function 'mdss_edp_link_train':
+drivers/video/msm/mdss/mdss_edp_aux.c:983:101: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/video/msm/mdss/mdss_edp_aux.c:983:101: warning: array subscript is above array bounds [-Warray-bounds]
+drivers/staging/prima/CORE/HDD/src/wlan_hdd_wmm.c: In function 'hdd_wmm_sme_callback':
+drivers/staging/prima/CORE/HDD/src/wlan_hdd_wmm.c:879:23: warning: logical not is only applied to the left hand side of comparison [-Wlogical-not-parentheses]
+       if (!HDD_WMM_HANDLE_IMPLICIT == pQosContext->handle)
+                       ^
+drivers/staging/prima/CORE/MAC/src/pe/sch/schBeaconGen.c: In function 'schGetP2pIeOffset':
+drivers/staging/prima/CORE/MAC/src/pe/sch/schBeaconGen.c:82:58: warning: passing argument 2 of 'vos_mem_compare' discards 'const' qualifier from pointer target type [-Wdiscarded-array-qualifiers]
+             if ( vos_mem_compare ( (void *)(pExtraIe+2), &P2pOui, sizeof(P2pOui) ) )
+                                                          ^
+In file included from drivers/staging/prima/CORE/VOSS/inc/vos_api.h:68:0,
+                 from drivers/staging/prima/CORE/WDA/inc/legacy/palTypes.h:48,
+                 from drivers/staging/prima/CORE/MAC/src/pe/sch/schBeaconGen.c:40:
+drivers/staging/prima/CORE/VOSS/inc/vos_memory.h:216:10: note: expected 'void *' but argument is of type 'const tANI_U8 (*)[4] {aka const unsigned char (*)[4]}'
+ v_BOOL_t vos_mem_compare( v_VOID_t *pMemory1, v_VOID_t *pMemory2, v_U32_t numBytes ); 
+          ^
+drivers/built-in.o: In function `dbs_check_cpu':
+/home/stefan/kernel/one_plus_one/drivers/cpufreq/cpufreq_conservative.c:351: undefined reference to `get_input_time'
+drivers/built-in.o: In function `.LANCHOR1':
+backoff.c:(.data+0x11150): undefined reference to `kgsl_iommu_sync_lock'
+backoff.c:(.data+0x11154): undefined reference to `kgsl_iommu_sync_unlock'
+make: *** [vmlinux] Error 1
+End of compiling kernel!
