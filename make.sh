@@ -12,7 +12,7 @@ DATE_START=$(date +"%s")
 make clean && make mrproper
 
 make Tyr_defconfig
-make -j 5 ARCH=arm CROSS_COMPILE=/home/stefan/kernel/arm-eabi-4.9/bin/arm-eabi- HOSTCC=/home/stefan/kernel/arm-eabi-4.9/bin/clang CC=/home/stefan/kernel/arm-eabi-4.9/bin/clang
+make -j 5 V=1 ARCH=arm SUBARCH=arm CROSS_COMPILE=/home/stefan/kernel/arm-eabi-4.9/bin/arm-eabi- HOSTCC=/home/stefan/kernel/arm-eabi-4.9/bin/clang CC=/home/stefan/kernel/arm-eabi-4.9/bin/clang
 
 echo "End of compiling kernel!"
 
