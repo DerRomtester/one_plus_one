@@ -32,8 +32,8 @@ cd ../ramdisk_one_plus_one/
 cd ../one_plus_one/
 zipfile="TyrV.zip"
 echo "making zip file"
-cp ../ramdisk_one_plus_one/image-new.img zip/boot.img
-cd zip/
+cp ../ramdisk_one_plus_one/image-new.img ../output/boot.img
+cd ../output/
 rm -f *.zip
 zip -r -9 $zipfile *
 rm -f /tmp/*.zip
