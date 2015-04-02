@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Cleaning old files"
-rm -f ../one_plus_one/zip/Tyr*
-rm -f ../one_plus_one/zip/boot.img
+rm -f ../output/Tyr*
+rm -f ../output/boot.img
 rm -f ../ram*/image-new*
 rm -f ../ram*/ramdisk-new.cpio*
 rm -f ../ram*/spl*/boot.img-dtb
@@ -10,9 +10,10 @@ echo "Making oneplus one kernel"
 DATE_START=$(date +"%s")
 
 make clean && make mrproper
+export PATH=/home/stefan/kernel/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2015.03/bin/:$PATH
 
-make Tyr_defconfig
-make -j 5 V=1 ARCH=arm SUBARCH=arm CROSS_COMPILE=/home/stefan/kernel/arm-eabi-4.9/bin/arm-eabi- HOSTCC=/home/stefan/kernel/arm-eabi-4.9/bin/clang CC=/home/stefan/kernel/arm-eabi-4.9/bin/clang
+make ARCH=arm Tyr_defconfig
+make -j 5 ARCH=arm SUBARCH=arm CROSS_COMPILE=/home/stefan/kernel/arm-cortex_a15-linux-gnueabihf-linaro_4.9.3-2015.03/bin/arm-cortex_a15-linux-gnueabihf- HOSTCC=clang CC=clang
 
 echo "End of compiling kernel!"
 
@@ -32,8 +33,8 @@ cd ../ramdisk_one_plus_one/
 cd ../one_plus_one/
 zipfile="TyrV.zip"
 echo "making zip file"
-cp ../ramdisk_one_plus_one/image-new.img zip/boot.img
-cd zip/
+cp ../ramdisk_one_plus_one/image-new.img ../output/boot.img
+cd ../output/
 rm -f *.zip
 zip -r -9 $zipfile *
 rm -f /tmp/*.zip
