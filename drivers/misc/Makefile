@@ -70,5 +70,5 @@ obj-$(CONFIG_QSEECOM) += qseecom.o
 obj-$(CONFIG_QFP_FUSE) += qfp_fuse.o
 obj-$(CONFIG_TI_DRV2667) += ti_drv2667.o
 obj-$(CONFIG_QPNP_MISC) += qpnp-misc.o
-obj-y				+= shineled/
+obj-$(CONFIG_SN3193_SLED) += shineled/
 obj-y				+= sound_control.o
