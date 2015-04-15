@@ -46,6 +46,10 @@
 /* Number of jiffies for a full thermal cycle */
 #define TH_HZ			20
 
+#ifdef CONFIG_CPU_FREQ_GOV_SLIM
+int graphics_boost = 6;
+#endif
+
 struct clk_pair {
 	const char *name;
 	uint map;
@@ -224,6 +228,10 @@ void kgsl_pwrctrl_pwrlevel_change(struct kgsl_device *device,
 	clk_set_rate(pwr->grp_clks[0], pwrlevel->gpu_freq);
 	trace_kgsl_pwrlevel(device, pwr->active_pwrlevel,
 			pwrlevel->gpu_freq);
+
+#ifdef CONFIG_CPU_FREQ_GOV_SLIM
+graphics_boost = pwr->active_pwrlevel;
+#endif
 }
 EXPORT_SYMBOL(kgsl_pwrctrl_pwrlevel_change);
 
