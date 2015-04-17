@@ -831,6 +831,7 @@ int __wlan_hdd_cfg80211_cancel_remain_on_channel( struct wiphy *wiphy,
                    "%s: timeout waiting for remain on channel ready indication %d",
                    __func__, status);
            pRemainChanCtx->is_pending_roc_cancelled = TRUE;
+           mutex_unlock(&pHddCtx->roc_lock);
            return 0;
 
        }
@@ -861,6 +862,7 @@ int __wlan_hdd_cfg80211_cancel_remain_on_channel( struct wiphy *wiphy,
                         "%s:wait on cancel_rem_on_chan_var failed %d",
                         __func__, status);
             }
+            mutex_unlock(&pHddCtx->roc_lock);
             return 0;
         }
         else
