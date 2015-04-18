@@ -8,7 +8,7 @@ DATE_START=$(date +"%s")
 
 make clean && make mrproper
 
-VER=110
+VER=111
 export KBUILD_BUILD_VERSION=$VER
 export ARCH=arm
 export SUBARCH=arm
@@ -24,6 +24,6 @@ echo "Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 ../ramdisk_one_plus_one/dtbToolCM -2 -o ../opo-AnyKernel2/dtb -s 2048 -p ../one_plus_one/scripts/dtc/ ../one_plus_one/arch/arm/boot/
 cp arch/arm/boot/zImage ../opo-AnyKernel2/zImage
 cd ../opo-AnyKernel2/
-zipfile="TyrV-$VER.zip"
+zipfile="TyrV$VER.zip"
 zip -r -9 $zipfile *
 mv TyrV*.zip ../output/
