@@ -409,6 +409,11 @@ static int mdss_dsi_link_clk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 
 	pr_debug("%s: ndx=%d\n", __func__, ctrl_pdata->ndx);
 
+	if (ctrl_pdata->mdss_dsi_clk_on) {
+		pr_info("%s: mdss_dsi_clks already ON\n", __func__);
+		return 0;
+	}
+
 	rc = clk_enable(ctrl_pdata->esc_clk);
 	if (rc) {
 		pr_err("%s: Failed to enable dsi esc clk\n", __func__);
@@ -426,6 +431,8 @@ static int mdss_dsi_link_clk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 		pr_err("%s: Failed to enable dsi pixel clk\n", __func__);
 		goto pixel_clk_err;
 	}
+
+	ctrl_pdata->mdss_dsi_clk_on = 1;
 
 	return rc;
 
@@ -446,9 +453,16 @@ static void mdss_dsi_link_clk_disable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 
 	pr_debug("%s: ndx=%d\n", __func__, ctrl_pdata->ndx);
 
+	if (ctrl_pdata->mdss_dsi_clk_on == 0) {
+		pr_info("%s: mdss_dsi_clks already OFF\n", __func__);
+		return;
+	}
+
 	clk_disable(ctrl_pdata->esc_clk);
 	clk_disable(ctrl_pdata->pixel_clk);
 	clk_disable(ctrl_pdata->byte_clk);
+
+	ctrl_pdata->mdss_dsi_clk_on = 0;
 }
 
 static int mdss_dsi_link_clk_start(struct mdss_dsi_ctrl_pdata *ctrl)
