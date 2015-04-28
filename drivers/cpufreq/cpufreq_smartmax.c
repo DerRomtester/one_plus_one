@@ -377,7 +377,7 @@ static inline void dbs_timer_init(struct smartmax_info_s *this_smartmax) {
 				this_smartmax->cur_policy->cur, CPUFREQ_RELATION_H);
 	}
 
-	INIT_DELAYED_WORK_DEFERRABLE(&this_smartmax->work, do_dbs_timer);
+	INIT_DEFERRABLE_WORK(&this_smartmax->work, do_dbs_timer);
 	queue_delayed_work_on(this_smartmax->cpu, smartmax_wq, &this_smartmax->work, delay);
 }
 
