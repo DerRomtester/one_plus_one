@@ -8,7 +8,7 @@ DATE_START=$(date +"%s")
 
 make clean && make mrproper
 
-VER=114
+VER=115
 export KBUILD_BUILD_VERSION=$VER
 export ARCH=arm
 export SUBARCH=arm
