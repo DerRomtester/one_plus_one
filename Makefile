@@ -193,7 +193,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH           ?= arm
-CROSS_COMPILE  ?= $(CCACHE) ../arm-eabi-6.0/bin/arm-eabi-
+CROSS_COMPILE  ?= $(CCACHE) ../utc-6.0/bin/arm-eabi-
 CCACHE 	       ?= ccache
 
 # Architecture as present in compile.h
@@ -346,10 +346,12 @@ KALLSYMS	= scripts/kallsyms
 PERL		= perl
 CHECK		= sparse
 
+ifdef CONFIG_TARGET_DEVICE_TUNING
 # To optimize the kernel, we are going to include some GCC flags
 # These flags require a custom toolchain and may produce bugs.
 $(srctree)/aio/optimizations.mk: ;
 include $(srctree)/aio/optimizations.mk
+endif
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
