@@ -32,7 +32,7 @@ menu "Optization Flags"
 		string "Cores"
 		default "0"
 		help
-	`		The number of cores in the target's CPU, usually 2, 4, or 8.
+			The number of cores in the target's CPU, usually 2, 4, or 8.
 
 	config TARGET_NEON_CORES
 		string "Cores"
@@ -40,8 +40,8 @@ menu "Optization Flags"
 		help
 			The number of cores in sequential numbers (double or quad).
 
-	config TARGET_FPU_SETTING
-`		string "Device FPU"
+	config TARGET_FPU
+		string "Device FPU"
 		help
 			Common FPUs include: ‘vfp’, ‘vfpv3’, ‘vfpv3-fp16’, ‘vfpv3-d16’,
 			 ‘vfpv3-d16-fp16’, ‘vfpv3xd’, ‘vfpv3xd-fp16’, ‘neon’, ‘neon-fp16’,
@@ -49,12 +49,12 @@ menu "Optization Flags"
 			 ‘fpv5-sp-d16’, ‘fp-armv8’, ‘neon-fp-armv8’, and ‘crypto-neon-fp-armv8’. 
 
 	config TARGET_L1_CACHE_SIZE
-		int "L1 Cache Size"
+		string "L1 cache"
 		help
-			CPU level 1 cache size.
-
+			CPU level 1 cache size.		
+	
 	config TARGET_L2_CACHE_SIZE
-		int "L2 Cache Size"
+		string "L2 cache"
 		help 
 			CPU level 2 cache size.
   endmenu

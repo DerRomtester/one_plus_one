@@ -48,7 +48,7 @@ TUNE_FLAGS    := -marm \
 		 -mcpu=$(CONFIG_TARGET_CPU) \
 		 -march=$(CONFIG_TARGET_ARCH) \
 		 -mfloat-abi=$(CONFIG_TARGET_ABI) \
-		 -mfpu=$(CONFIG_TARGET_FPU_SETTING) \
+		 -mfpu=$(CONFIG_TARGET_FPU) \
 	         -mvectorize-with-neon-$(CONFIG_TARGET_NEON_CORES)
 else
 TUNE_FLAGS    := -marm
