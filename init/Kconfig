@@ -27,8 +27,6 @@ config IRQ_WORK
 	bool
 	depends on HAVE_IRQ_WORK
 
-source aio/Kconfig
-
 menu "General setup"
 
 config EXPERIMENTAL
