@@ -39,15 +39,4 @@ struct msm_thermal_data {
 	int32_t therm_reset_temp_degC;
 };
 
-#ifdef CONFIG_THERMAL_MONITOR
-extern int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq,
-	bool is_max);
-#else
-static inline int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq,
-	bool is_max)
-{
-	return -ENOSYS;
-}
-#endif
-
 #endif /*__MSM_THERMAL_H*/
