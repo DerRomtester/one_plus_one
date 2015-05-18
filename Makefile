@@ -246,7 +246,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -ffast-math -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -fomit-frame-pointer -pipe
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -ffast-math -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -fomit-frame-pointer -pipe -std=gnu89
 HOSTCXXFLAGS = -O3 -ffast-math -fno-tree-vectorize -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -pipe
 
 # Decide whether to build built-in, modular, or both.
@@ -371,7 +371,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security -Wno-array-bounds \
-		   -fno-delete-null-pointer-checks \
+		   -fno-delete-null-pointer-checks -std=gnu89 \
 		   -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 -marm \
 		   -ffast-math -fsingle-precision-constant \
                    -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr \
