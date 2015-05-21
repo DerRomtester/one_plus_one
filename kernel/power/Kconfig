@@ -318,3 +318,7 @@ config QUICK_WAKEUP
 	---help---
 	  Allow kernel driver to do periodic jobs without resuming the full system
 	  This option can increase battery life on android powered smartphone.
+
+config DEDUCE_WAKEUP_REASONS
+	bool
+	default n
