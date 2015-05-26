@@ -86,5 +86,4 @@ obj-$(CONFIG_EARLY_PRINTK)	+= early_printk.o
 
 extra-y := $(head-y) init_task.o vmlinux.lds
 
-obj-y += autosmp.o
-obj-y += mako_hotplug.o
+obj-y += msm-sleeper.o
