@@ -248,6 +248,7 @@ struct msm_hs_port {
 	struct msm_bus_scale_pdata *bus_scale_table;
 	int rx_count_callback;
 	bool rx_bam_inprogress;
+	bool obs;
 	wait_queue_head_t bam_disconnect_wait;
 
 };
@@ -1880,12 +1881,19 @@ static int msm_hs_check_clock_off(struct uart_port *uport)
 	mutex_lock(&msm_uport->clk_mutex);
 
 	spin_lock_irqsave(&uport->lock, flags);
-	if (use_low_power_wakeup(msm_uport)) {
+	/* For out of band sleep wakeup interrupt is not required */
+	if (!msm_uport->obs && use_low_power_wakeup(msm_uport)) {
 		msm_uport->wakeup.ignore = 1;
 		enable_irq(msm_uport->wakeup.irq);
 	}
-	wake_unlock(&msm_uport->dma_wake_lock);
 
+	/*
+	 * keeping uport-irq enabled all the time
+	 * gates XO shutdown in idle power collapse.
+	 */
+	disable_irq(uport->irq);
+
+	wake_unlock(&msm_uport->dma_wake_lock);
 	spin_unlock_irqrestore(&uport->lock, flags);
 
 	mutex_unlock(&msm_uport->clk_mutex);
@@ -2093,8 +2101,11 @@ void msm_hs_request_clock_on(struct uart_port *uport)
 	switch (msm_uport->clk_state) {
 	case MSM_HS_CLK_OFF:
 		wake_lock(&msm_uport->dma_wake_lock);
-		if (use_low_power_wakeup(msm_uport))
+		if (!msm_uport->obs && use_low_power_wakeup(msm_uport))
 			disable_irq_nosync(msm_uport->wakeup.irq);
+
+		/* uport-irq was disabled when clocked off */
+		enable_irq(uport->irq);
 		spin_unlock_irqrestore(&uport->lock, flags);
 
 		mutex_unlock(&msm_uport->clk_mutex);
@@ -2554,6 +2565,11 @@ struct msm_serial_hs_platform_data
 	pdata->no_suspend_delay = of_property_read_bool(node,
 				"qcom,no-suspend-delay");
 
+	pdata->obs = of_property_read_bool(node,
+					"qcom,msm-obs");
+	if (pdata->obs)
+		pr_debug("%s: Out of Band Sleep is enabled\n", __func__);
+
 	pdata->inject_rx_on_wakeup = of_property_read_bool(node,
 				"qcom,inject-rx-on-wakeup");
 
@@ -2957,6 +2973,7 @@ static int __devinit msm_hs_probe(struct platform_device *pdev)
 		msm_uport->wakeup.ignore = 1;
 		msm_uport->wakeup.inject_rx = pdata->inject_rx_on_wakeup;
 		msm_uport->wakeup.rx_to_inject = pdata->rx_to_inject;
+		msm_uport->obs = pdata->obs;
 
 		msm_uport->bam_tx_ep_pipe_index =
 				pdata->bam_tx_ep_pipe_index;
