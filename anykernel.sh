@@ -8,8 +8,8 @@ DATE_START=$(date +"%s")
 
 make clean && make mrproper
 
-VER=128 
-# stable
+VER=129 
+# test kernel
 export KBUILD_BUILD_VERSION=$VER
 export ARCH=arm
 export SUBARCH=arm
