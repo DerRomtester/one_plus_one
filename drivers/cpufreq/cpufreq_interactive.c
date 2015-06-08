@@ -69,7 +69,7 @@ static spinlock_t speedchange_cpumask_lock;
 static struct mutex gov_lock;
 
 /* Hi speed to bump to from lo speed when load burst (default max) */
-static unsigned int hispeed_freq = 1574400;
+static unsigned int hispeed_freq;
 
 /* Go to hi speed when CPU load at or above this value. */
 #define DEFAULT_GO_HISPEED_LOAD 99
@@ -118,7 +118,7 @@ static int boost_val;
 static int boostpulse_duration_val = 50000;
 /* End time of boost pulse in ktime converted to usecs */
 static u64 boostpulse_endtime;
-#define DEFAULT_INPUT_BOOST_FREQ 1728000
+#define DEFAULT_INPUT_BOOST_FREQ 1497600
 unsigned int input_boost_freq = DEFAULT_INPUT_BOOST_FREQ;
 
 /*
