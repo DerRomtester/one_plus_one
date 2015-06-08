@@ -118,7 +118,7 @@ static int boost_val;
 static int boostpulse_duration_val = 50000;
 /* End time of boost pulse in ktime converted to usecs */
 static u64 boostpulse_endtime;
-#define DEFAULT_INPUT_BOOST_FREQ 1497600
+#define DEFAULT_INPUT_BOOST_FREQ 1728000
 unsigned int input_boost_freq = DEFAULT_INPUT_BOOST_FREQ;
 
 /*
