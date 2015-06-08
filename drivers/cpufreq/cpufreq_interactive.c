@@ -458,6 +458,9 @@ static void cpufreq_interactive_timer(unsigned long data)
 	if (cpu_load >= go_hispeed_load || boosted) {
 		if (pcpu->policy->cur < boosted_freq) {
 			new_freq = boosted_freq;
+			
+			if (boosted)
+				new_freq = max(new_freq, input_boost_freq);
 		} else {
 			new_freq = choose_freq(pcpu, loadadjfreq);
 
@@ -472,6 +475,9 @@ static void cpufreq_interactive_timer(unsigned long data)
 		}
 	} else {
 		new_freq = choose_freq(pcpu, loadadjfreq);
+
+		if (boosted)
+			new_freq = max(new_freq, input_boost_freq);
 
 		if (new_freq > freq_calc_thresh)
 			new_freq = pcpu->policy->max * cpu_load / 100;
