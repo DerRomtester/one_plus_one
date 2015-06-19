@@ -88,3 +88,7 @@ GTAGS
 
 # Generated source files
 smd_rpc_sym.c
+
+# Build Scripts
+anykernel.sh
+make.sh
