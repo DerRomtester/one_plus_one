@@ -1965,44 +1965,33 @@ YAMAHA_DEVICE(0x7010, "UB99"),
 	}
 },
 {
-	USB_DEVICE(0x0582, 0x014d),
+	USB_DEVICE(0x0582, 0x0159),
 	.driver_info = (unsigned long) & (const struct snd_usb_audio_quirk) {
-		/* .vendor_name = "BOSS", */
-		/* .product_name = "GT-100", */
+		/* .vendor_name = "Roland", */
+		/* .product_name = "UA-22", */
 		.ifnum = QUIRK_ANY_INTERFACE,
 		.type = QUIRK_COMPOSITE,
 		.data = (const struct snd_usb_audio_quirk[]) {
+			{
+				.ifnum = 0,
+				.type = QUIRK_AUDIO_STANDARD_INTERFACE
+			},
 			{
 				.ifnum = 1,
 				.type = QUIRK_AUDIO_STANDARD_INTERFACE
 			},
 			{
 				.ifnum = 2,
-				.type = QUIRK_AUDIO_STANDARD_INTERFACE
-			},
-			{
-				.ifnum = 3,
 				.type = QUIRK_MIDI_FIXED_ENDPOINT,
 				.data = & (const struct snd_usb_midi_endpoint_info) {
 					.out_cables = 0x0001,
-					.in_cables  = 0x0001
+					.in_cables = 0x0001
 				}
 			},
 			{
 				.ifnum = -1
 			}
 		}
-	}
-},
-/* this catches most recent vendor-specific Roland devices */
-{
-	.match_flags = USB_DEVICE_ID_MATCH_VENDOR |
-	               USB_DEVICE_ID_MATCH_INT_CLASS,
-	.idVendor = 0x0582,
-	.bInterfaceClass = USB_CLASS_VENDOR_SPEC,
-	.driver_info = (unsigned long) &(const struct snd_usb_audio_quirk) {
-		.ifnum = QUIRK_ANY_INTERFACE,
-		.type = QUIRK_AUTODETECT
 	}
 },
 
