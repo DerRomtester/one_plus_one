@@ -90,5 +90,4 @@ GTAGS
 smd_rpc_sym.c
 
 # Build Scripts
-anykernel.sh
 make.sh
