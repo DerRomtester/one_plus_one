@@ -25,7 +25,7 @@
 #include <linux/platform_device.h>
 #include <linux/of.h>
 
-unsigned int temp_threshold = 70;
+unsigned int temp_threshold = 60;
 module_param(temp_threshold, int, 0644);
 
 static struct thermal_info {
@@ -44,9 +44,9 @@ static struct thermal_info {
 
 enum thermal_freqs {
 	FREQ_HELL		= 729600,
-	FREQ_VERY_HOT		= 1036800,
-	FREQ_HOT		= 1497600,
-	FREQ_WARM		= 1728000,
+	FREQ_VERY_HOT		= 1190400,
+	FREQ_HOT		= 1574400,
+	FREQ_WARM		= 1958400,
 };
 
 enum threshold_levels {
