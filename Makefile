@@ -251,7 +251,7 @@ HOSTCXXFLAGS = -O3 -fno-tree-vectorize
 
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
-		-Wno-missing-field-initializers -fno-delete-null-pointer-checks
+		-Wno-missing-field-initializers
 endif
 
 # Decide whether to build built-in, modular, or both.
@@ -368,16 +368,12 @@ CHECK		= sparse
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 
-OPTIMIZATION_FLAGS =  -mtune=cortex-a15 -mfpu=neon-vfpv4 \
-                     -ffast-math -fsingle-precision-constant \
-                     -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
-
-MODFLAGS	= -DMODULE $(OPTIMIZATION_FLAGS)
-CFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
-AFLAGS_MODULE   = $(OPTIMIZATION_FLAGS)
+MODFLAGS	= -DMODULE
+CFLAGS_MODULE   = 
+AFLAGS_MODULE   =
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
-CFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
-AFLAGS_KERNEL   = $(OPTIMIZATION_FLAGS)
+CFLAGS_KERNEL   =
+AFLAGS_KERNEL   =
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 # Use LINUXINCLUDE when you must reference the include/ directory.
@@ -393,13 +389,12 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security $(CLANG_FLAGS) -Wno-array-bounds \
-		   -fno-delete-null-pointer-checks -std=gnu89 \
+		   -std=gnu89 \
 		   -mcpu=cortex-a15 -mtune=cortex-a15 -mfpu=neon-vfpv4 \
-		   -ffast-math -fsingle-precision-constant \
-                   -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
+                   -fforce-addr
 
-KBUILD_AFLAGS_KERNEL := $(OPTIMIZATION_FLAGS)
-KBUILD_CFLAGS_KERNEL := $(OPTIMIZATION_FLAGS)
+KBUILD_AFLAGS_KERNEL :=
+KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__ $(CLANG_FLAGS)
 KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
