@@ -200,8 +200,7 @@ extern UDItype __udiv_qrnnd();
 		"rI" ((USItype)(bl)))
 #if defined __ARM_ARCH_2__ || defined __ARM_ARCH_3__
 #define umul_ppmm(xh, xl, a, b) \
-	__asm__ ("%@ Inlined umul_ppmm\n" \
-		"mov	%|r0, %2, lsr #16		@ AAAA\n" \
+	__asm__ ("mov	%|r0, %2, lsr #16		@ AAAA\n" \
 		"mov	%|r2, %3, lsr #16		@ BBBB\n" \
 		"bic	%|r1, %2, %|r0, lsl #16		@ aaaa\n" \
 		"bic	%0, %3, %|r2, lsl #16		@ bbbb\n" \
@@ -220,10 +219,8 @@ extern UDItype __udiv_qrnnd();
 	: "r0", "r1", "r2")
 #else
 #define umul_ppmm(xh, xl, a, b) \
-	__asm__ ("%@ Inlined umul_ppmm\n" \
-		"umull %r1, %r0, %r2, %r3" \
-	: "=&r" ((USItype)(xh)), \
-			"=r" ((USItype)(xl)) \
+	__asm__ ("umull %1, %0, %2, %3" \
+	: "=&r" ((xh)), "=r" ((xl)) \
 	: "r" ((USItype)(a)), \
 			"r" ((USItype)(b)) \
 	: "r0", "r1")

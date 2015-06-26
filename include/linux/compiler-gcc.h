@@ -68,17 +68,17 @@
  * Force always-inline if the user requests it so via the .config,
  * or if gcc is too old:
  */
-#if !defined(CONFIG_ARCH_SUPPORTS_OPTIMIZED_INLINING) ||		\
-    !defined(CONFIG_OPTIMIZE_INLINING) || (__GNUC__ < 4)
-#define inline		inline		__attribute__((always_inline)) notrace
-#define __inline__	__inline__	__attribute__((always_inline)) notrace
-#define __inline	__inline	__attribute__((always_inline)) notrace
-#else
-/* A lot of inline functions can cause havoc with function tracing */
-#define inline		inline		notrace
-#define __inline__	__inline__	notrace
-#define __inline	__inline	notrace
-#endif
+#if !defined(CONFIG_ARCH_SUPPORTS_OPTIMIZED_INLINING) || \
+     !defined(CONFIG_OPTIMIZE_INLINING) || (__GNUC__ < 4)
+# define inline		inline		__attribute__((always_inline)) notrace __maybe_unused
+# define __inline__	__inline__	__attribute__((always_inline)) notrace __maybe_unused
+# define __inline	__inline	__attribute__((always_inline)) notrace __maybe_unused
+ #else
+ /* A lot of inline functions can cause havoc with function tracing */
+# define inline		inline		notrace __maybe_unused
+# define __inline__	__inline__	notrace __maybe_unused
+# define __inline	__inline	notrace __maybe_unused
+ #endif
 
 #define __always_inline	inline __attribute__((always_inline))
 #define  noinline	__attribute__((noinline))
