@@ -91,3 +91,4 @@ smd_rpc_sym.c
 
 # Build Scripts
 make.sh
+clang.sh
