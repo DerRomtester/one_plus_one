@@ -28,7 +28,6 @@
 #include <linux/workqueue.h>
 #include <linux/kthread.h>
 #include <linux/slab.h>
-#include <linux/touchboost.h>
 #include <asm/cputime.h>
 
 static int active_count;
@@ -69,7 +68,7 @@ static spinlock_t speedchange_cpumask_lock;
 static struct mutex gov_lock;
 
 /* Hi speed to bump to from lo speed when load burst (default max) */
-static unsigned int hispeed_freq;
+static unsigned int hispeed_freq = 1574400;
 
 /* Go to hi speed when CPU load at or above this value. */
 #define DEFAULT_GO_HISPEED_LOAD 99
@@ -118,8 +117,6 @@ static int boost_val;
 static int boostpulse_duration_val = 50000;
 /* End time of boost pulse in ktime converted to usecs */
 static u64 boostpulse_endtime;
-#define DEFAULT_INPUT_BOOST_FREQ 1728000
-unsigned int input_boost_freq = DEFAULT_INPUT_BOOST_FREQ;
 
 /*
  * Max additional time to wait in idle, beyond timer_rate, at speeds above
@@ -450,23 +447,15 @@ static void cpufreq_interactive_timer(unsigned long data)
 	do_div(cputime_speedadj, delta_time);
 	loadadjfreq = (unsigned int)cputime_speedadj * 100;
 	cpu_load = loadadjfreq / pcpu->policy->cur;
-	boosted = boost_val || now < (get_input_time() + boostpulse_duration_val);
+	boosted = boost_val || now < boostpulse_endtime;
 	boosted_freq = max(hispeed_freq, pcpu->policy->min);
-
-	cpufreq_notify_utilization(pcpu->policy, cpu_load);
 
 	if (cpu_load >= go_hispeed_load || boosted) {
 		if (pcpu->policy->cur < boosted_freq) {
 			new_freq = boosted_freq;
-			
-			if (boosted)
-				new_freq = max(new_freq, input_boost_freq);
 		} else {
 			new_freq = choose_freq(pcpu, loadadjfreq);
 
-			if (boosted)
-				new_freq = max(new_freq, input_boost_freq);
-	
 			if (new_freq > freq_calc_thresh)
 				new_freq = pcpu->policy->max * cpu_load / 100;
 
@@ -475,9 +464,6 @@ static void cpufreq_interactive_timer(unsigned long data)
 		}
 	} else {
 		new_freq = choose_freq(pcpu, loadadjfreq);
-
-		if (boosted)
-			new_freq = max(new_freq, input_boost_freq);
 
 		if (new_freq > freq_calc_thresh)
 			new_freq = pcpu->policy->max * cpu_load / 100;
@@ -1220,28 +1206,6 @@ static ssize_t store_powersave_bias(struct kobject *kobj,
 static struct global_attr powersave_bias_attr = __ATTR(powersave_bias, 0644,
 		show_powersave_bias, store_powersave_bias);
 
-static ssize_t show_input_boost_freq(struct kobject *kobj,
-                        struct attribute *attr, char *buf)
-{
-        return sprintf(buf, "%u\n", input_boost_freq);
-}
-
-static ssize_t store_input_boost_freq(struct kobject *kobj,
-                        struct attribute *attr, const char *buf, size_t count)
-{
-        int ret;
-        unsigned long val;
-
-        ret = kstrtoul(buf, 0, &val);
-        if (ret < 0)
-                return ret;
-        input_boost_freq = val;
-        return count;
-}
-
-static struct global_attr input_boost_freq_attr = __ATTR(input_boost_freq, 0644,
-                show_input_boost_freq, store_input_boost_freq);
-
 static struct attribute *interactive_attributes[] = {
 	&target_loads_attr.attr,
 	&freq_calc_thresh_attr.attr,
@@ -1258,7 +1222,6 @@ static struct attribute *interactive_attributes[] = {
 	&max_freq_hysteresis_attr.attr,
 	&align_windows_attr.attr,
 	&powersave_bias_attr.attr,
-	&input_boost_freq_attr.attr,
 	NULL,
 };
 
@@ -1380,8 +1343,12 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
+		/* If device is being removed, skip set limits */
+		if (!policy->cur)
+			break;
 		__cpufreq_driver_target(policy,
 				policy->cur, CPUFREQ_RELATION_L);
+
 		for_each_cpu(j, policy->cpus) {
 			pcpu = &per_cpu(cpuinfo, j);
 
