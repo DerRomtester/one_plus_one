@@ -224,7 +224,6 @@ void enable_rq_load_calc(bool on)
 
 				pcpu->prev_cpu_idle = 0;
 				pcpu->prev_cpu_wall = 0;
-				pcpu->prev_cpu_iowait = 0;
 				pcpu->avg_load_maxfreq = 0;
 			}
 
