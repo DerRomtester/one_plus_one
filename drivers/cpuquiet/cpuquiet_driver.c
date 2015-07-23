@@ -37,12 +37,12 @@ static bool manual_hotplug = false;
 // core 0 is always active
 unsigned int cpu_core_state[3] = {0, 0, 0};
 		
-static unsigned int min_cpus = 1;
-static unsigned int max_cpus = CONFIG_NR_CPUS;
+unsigned int min_cpus = 1;
+unsigned int max_cpus = CONFIG_NR_CPUS;
 
 #define DEFAULT_SCREEN_OFF_CPU_CAP 2
-static unsigned int screen_off_max_cpus = DEFAULT_SCREEN_OFF_CPU_CAP;
-static bool screen_off_cap = false;
+unsigned int screen_off_max_cpus = DEFAULT_SCREEN_OFF_CPU_CAP;
+bool screen_off_cap = false;
 #ifdef CONFIG_HAS_EARLYSUSPEND
 struct early_suspend cpuquiet_early_suspender;
 #endif
@@ -54,7 +54,7 @@ static bool log_hotplugging = false;
 	if (log_hotplugging) pr_info("[CPUQUIET]: " msg); \
 	} while (0)
 
-static inline unsigned int num_cpu_check(unsigned int num)
+inline unsigned int num_cpu_check(unsigned int num)
 {
 	if (num > CONFIG_NR_CPUS)
 		return CONFIG_NR_CPUS;
@@ -68,14 +68,14 @@ bool cpq_is_suspended(void)
     return is_suspended;
 }
 
-unsigned inline int cpq_max_cpus(void)
+unsigned int cpq_max_cpus(void)
 {
     if (screen_off_cap && screen_off_cap_active)
 	    return min(num_cpu_check(max_cpus), num_cpu_check(screen_off_max_cpus));
 	return num_cpu_check(max_cpus);
 }
 
-unsigned inline int cpq_min_cpus(void)
+unsigned int cpq_min_cpus(void)
 {
 	return num_cpu_check(min_cpus);
 }
