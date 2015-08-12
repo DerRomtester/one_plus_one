@@ -117,6 +117,11 @@ static void check_temp(struct work_struct *work)
 	tsens_dev.sensor_num = 0;
 	tsens_get_temp(&tsens_dev, &temp);
 
+	if (temp_threshold >= 75)
+		temp_threshold = 75;
+	else if (temp_threshold <= 40)
+		temp_threshold = 40;
+
 	if (info.throttling)
 	{
 		if (temp < (temp_threshold - info.safe_diff))
