@@ -370,6 +370,13 @@ struct rq {
 	unsigned int ave_nr_running;
 	seqcount_t ave_seqcnt;
 
+#ifdef CONFIG_CPU_QUIET
+	/* time-based average load */
+	u64 nr_last_stamp;
+	u64 nr_running_integral;
+	seqcount_t ave_seqcnt;
+#endif
+
 	/* capture load from *all* tasks on this cpu: */
 	struct load_weight load;
 	unsigned long nr_load_updates;
@@ -955,7 +962,7 @@ static inline unsigned int do_avg_nr_running(struct rq *rq)
 	return ave_nr_running;
 }
 
-static inline void inc_nr_running(struct rq *rq)
+static inline void __inc_nr_running(struct rq *rq)
 {
 #if defined(CONFIG_MSM_DCVS)
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
