@@ -32,13 +32,6 @@ config CPUQUIET_DEFAULT_GOV_RUNNABLE
 	  the number of running threads ato scale the number of cpus  
 	  online in the system
 	  
-config CPUQUIET_DEFAULT_GOV_RQ_STATS
-	bool "rq_stats"
-	select CPUQUIET_GOVERNOR_RQ_STATS
-	help
-	  Use the CPUQuiet governor 'rq_stats' as default. This uses
-	  rq information to scale the number of cpus online in the system
-
 config CPUQUIET_DEFAULT_GOV_LOAD_STATS
 	bool "load_stats"
 	select CPUQUIET_GOVERNOR_LOAD_STATS
@@ -57,11 +50,6 @@ config CPUQUIET_GOVERNOR_RUNNABLE
 	bool "runnable"
 	help
 	  Add the CPUQuiet governor 'runnable'
-
-config CPUQUIET_GOVERNOR_RQ_STATS
-	bool "rq_stats"
-	help
-	  Add the CPUQuiet governor 'rq_stats'
 
 config CPUQUIET_GOVERNOR_LOAD_STATS
 	bool "load_stats"

@@ -24,6 +24,8 @@
 
 #include "cpuquiet.h"
 
+extern unsigned int cpq_available_cpus(void);
+
 struct cpuquiet_dev {
 	unsigned int cpu;
 	struct kobject kobj;
