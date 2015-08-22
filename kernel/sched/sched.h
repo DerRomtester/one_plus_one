@@ -364,17 +364,12 @@ struct rq {
 	unsigned long nohz_flags;
 #endif
 	int skip_clock_update;
-
+#ifdef CONFIG_CPUQUIET_FRAMEWORK
 	/* time-based average load */
 	u64 nr_last_stamp;
 	unsigned int ave_nr_running;
 	seqcount_t ave_seqcnt;
-
-#ifdef CONFIG_CPU_QUIET
-	/* time-based average load */
-	u64 nr_last_stamp;
 	u64 nr_running_integral;
-	seqcount_t ave_seqcnt;
 #endif
 
 	/* capture load from *all* tasks on this cpu: */
@@ -962,12 +957,26 @@ static inline unsigned int do_avg_nr_running(struct rq *rq)
 	return ave_nr_running;
 }
 
+static inline u64 do_nr_running_integral(struct rq *rq)
+{
+	s64 nr, deltax;
+	u64 nr_running_integral = rq->nr_running_integral;
+
+	deltax = rq->clock_task - rq->nr_last_stamp;
+	nr = NR_AVE_SCALE(rq->nr_running);
+
+	nr_running_integral += nr * deltax;
+
+	return nr_running_integral;
+}
+
 static inline void __inc_nr_running(struct rq *rq)
 {
 #if defined(CONFIG_MSM_DCVS)
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
 #endif
 	write_seqcount_begin(&rq->ave_seqcnt);
+	rq->nr_running_integral = do_nr_running_integral(rq);
 	rq->ave_nr_running = do_avg_nr_running(rq);
 	rq->nr_last_stamp = rq->clock_task;
 	rq->nr_running++;
@@ -980,6 +989,7 @@ static inline void dec_nr_running(struct rq *rq)
 	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
 #endif
 	write_seqcount_begin(&rq->ave_seqcnt);
+	rq->nr_running_integral = do_nr_running_integral(rq);
 	rq->ave_nr_running = do_avg_nr_running(rq);
 	rq->nr_last_stamp = rq->clock_task;
  	rq->nr_running--;

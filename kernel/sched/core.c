@@ -2886,7 +2886,7 @@ static void update_cpu_load_active(struct rq *this_rq)
 
 #ifdef CONFIG_SMP
 
-#ifdef CONFIG_CPU_QUIET
+#ifdef CONFIG_CPUQUIET_FRAMEWORK
 u64 nr_running_integral(unsigned int cpu)
 {
 	unsigned int seqcnt;

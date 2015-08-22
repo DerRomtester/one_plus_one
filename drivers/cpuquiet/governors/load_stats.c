@@ -21,7 +21,6 @@
 #include <linux/slab.h>
 #include <linux/cpu.h>
 #include <linux/sched.h>
-#include <linux/sched/rt.h>
 #include <linux/kthread.h>
 #include <linux/kernel_stat.h>
 #include <linux/tick.h>

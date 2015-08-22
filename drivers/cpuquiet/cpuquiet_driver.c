@@ -36,8 +36,8 @@ static bool manual_hotplug = false;
 // core 0 is always active
 unsigned int cpu_core_state[3] = {0, 0, 0};
 		
-static unsigned int min_cpus = 1;
-static unsigned int max_cpus = CONFIG_NR_CPUS;
+unsigned int min_cpus = 1;
+unsigned int max_cpus = CONFIG_NR_CPUS;
 
 static bool log_hotplugging = false;
 #define hotplug_info(msg...) do { \
@@ -49,7 +49,7 @@ unsigned int cpq_available_cpus(void)
     return 4;
 }
 
-static inline unsigned int num_cpu_check(unsigned int num)
+inline unsigned int num_cpu_check(unsigned int num)
 {
 	if (num > cpq_available_cpus())
 		return cpq_available_cpus();
@@ -58,12 +58,12 @@ static inline unsigned int num_cpu_check(unsigned int num)
 	return num;
 }
 
-unsigned inline int cpq_max_cpus(void)
+unsigned int cpq_max_cpus(void)
 {
 	return num_cpu_check(max_cpus);
 }
 
-unsigned inline int cpq_min_cpus(void)
+unsigned int cpq_min_cpus(void)
 {
 	return num_cpu_check(min_cpus);
 }
