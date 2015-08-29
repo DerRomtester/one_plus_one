@@ -21,6 +21,14 @@ GZFLAGS		:=-9
 # Explicitly specifiy 32-bit ARM ISA since toolchain default can be -mthumb:
 KBUILD_CFLAGS	+=$(call cc-option,-marm,)
 
+ifeq ($(COMPILER),clang)
+# Clang options
+ifneq ($(CROSS_COMPILE),)
+KBUILD_CPPFLAGS	+= -target $(CROSS_COMPILE:-=)
+endif
+KBUILD_CFLAGS   += -fno-builtin -Wno-asm-operand-widths -Xassembler -mno-warn-deprecated
+endif
+
 # Never generate .eh_frame
 KBUILD_CFLAGS	+= $(call cc-option,-fno-dwarf2-cfi-asm)
 
@@ -46,11 +54,11 @@ endif
 KBUILD_CFLAGS += $(call cc-option,-fno-conserve-stack)
 
 ifeq ($(CONFIG_CPU_BIG_ENDIAN),y)
-KBUILD_CPPFLAGS	+= -mbig-endian
+KBUILD_CPPFLAGS	+= $(call cc-option,-mbig-endian,)
 AS		+= -EB
 LD		+= -EB
 else
-KBUILD_CPPFLAGS	+= -mlittle-endian
+KBUILD_CPPFLAGS	+= $(call cc-option,-mlittle-endian,)
 AS		+= -EL
 LD		+= -EL
 endif
@@ -108,7 +116,7 @@ tune-$(CONFIG_CPU_V6)		:=$(call cc-option,-mtune=arm1136j-s,-mtune=strongarm)
 tune-$(CONFIG_CPU_V6K)		:=$(call cc-option,-mtune=arm1136j-s,-mtune=strongarm)
 
 ifeq ($(CONFIG_AEABI),y)
-CFLAGS_ABI	:=-mabi=aapcs-linux
+CFLAGS_ABI	:=-mabi=aapcs-linux $(call cc-option,-mno-thumb-interwork,)
 else
 CFLAGS_ABI	:=$(call cc-option,-mapcs-32,-mabi=apcs-gnu) $(call cc-option,-mno-thumb-interwork,)
 endif
@@ -129,7 +137,7 @@ endif
 endif
 
 # Need -Uarm for gcc < 3.x
-KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_THUMB2) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float -Uarm
+KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_THUMB2) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float $(call cc-option, -Uarm,)
 KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_THUMB2) $(arch-y) $(tune-y) -include asm/unified.h -msoft-float
 
 CHECKFLAGS	+= -D__arm__
