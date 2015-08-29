@@ -583,6 +583,10 @@ endif # $(dot-config)
 # Defaults to vmlinux, but the arch makefile usually adds further targets
 all: vmlinux
 
+include $(srctree)/arch/$(SRCARCH)/Makefile
+
+KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
+
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 endif
@@ -602,8 +606,6 @@ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 # conserve stack if available
 # do this early so that an architecture can override it.
 KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
-
-include $(srctree)/arch/$(SRCARCH)/Makefile
 
 ifneq ($(CONFIG_FRAME_WARN),0)
 KBUILD_CFLAGS += $(call cc-option,-Wframe-larger-than=${CONFIG_FRAME_WARN})
