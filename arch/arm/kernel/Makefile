@@ -85,4 +85,4 @@ obj-$(CONFIG_DEBUG_LL)	+= debug.o
 obj-$(CONFIG_EARLY_PRINTK)	+= early_printk.o
 
 extra-y := $(head-y) init_task.o vmlinux.lds
-obj-y += blu_plug.o
+obj-y += mako_hotplug.o
