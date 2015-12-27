@@ -20,9 +20,6 @@
 #include <linux/device.h>
 #include <linux/slab.h>
 #include <linux/cpufreq.h>
-#ifdef CONFIG_STATE_NOTIFIER
-#include <linux/state_notifier.h>
-#endif
 #include <linux/mutex.h>
 #include <linux/input.h>
 #include <linux/math64.h>
@@ -38,7 +35,7 @@
 #define DEFAULT_DOWN_LOCK_DUR		1000
 #define DEFAULT_BOOST_LOCK_DUR		500 * 1000L
 #define DEFAULT_NR_CPUS_BOOSTED		2
-#define DEFAULT_MIN_CPUS_ONLINE		1
+#define DEFAULT_MIN_CPUS_ONLINE		2
 #define DEFAULT_MAX_CPUS_ONLINE		NR_CPUS
 /* cur_avg_load can be > 200! */
 #define DEFAULT_FAST_LANE_LOAD		180
@@ -484,101 +481,6 @@ reschedule:
 	reschedule_hotplug_work();
 }
 
-#ifdef CONFIG_STATE_NOTIFIER
-static void __ref msm_hotplug_suspend(void)
-{
-	int cpu;
-
-	if (!hotplug_suspend)
-		return;
-
-	if (!hotplug.suspended) {
-		mutex_lock(&hotplug.msm_hotplug_mutex);
-		hotplug.suspended = 1;
-		hotplug.min_cpus_online_res = hotplug.min_cpus_online;
-		hotplug.min_cpus_online = 1;
-		hotplug.max_cpus_online_res = hotplug.max_cpus_online;
-		hotplug.max_cpus_online = 3;
-		mutex_unlock(&hotplug.msm_hotplug_mutex);
-
-		/* Flush hotplug workqueue */
-		flush_workqueue(hotplug_wq);
-		cancel_delayed_work_sync(&hotplug_work);
-
-		/* Put sibling cores to sleep */
-		for_each_online_cpu(cpu) {
-			if (cpu == 0)
-				continue;
-			cpu_down(cpu);
-		}
-
-		/*
-		 * Enabled core 1,2 so we will have 0-2 online
-		 * when screen is OFF to reduce system lags and reboots.
-		 */
-		cpu_up(1);
-		cpu_up(2);
-
-		if (debug >= 2)
-			dprintk("%s: suspended.\n", MSM_HOTPLUG);
-	}
-}
-
-static void __ref msm_hotplug_resume(void)
-{
-	int cpu, required_reschedule = 0, required_wakeup = 0;
-
-	if (hotplug.suspended) {
-		mutex_lock(&hotplug.msm_hotplug_mutex);
-		hotplug.suspended = 0;
-		hotplug.min_cpus_online = hotplug.min_cpus_online_res;
-		hotplug.max_cpus_online = hotplug.max_cpus_online_res;
-		mutex_unlock(&hotplug.msm_hotplug_mutex);
-		required_wakeup = 1;
-		/* Initiate hotplug work */
-		required_reschedule = 1;
-		INIT_DELAYED_WORK(&hotplug_work, msm_hotplug_work);
-		if (debug >= 2)
-			dprintk("%s: resumed.\n", MSM_HOTPLUG);
-	}
-
-	if (required_wakeup) {
-		/* Fire up all CPUs */
-		for_each_cpu_not(cpu, cpu_online_mask) {
-			if (cpu == 0)
-				continue;
-			cpu_up(cpu);
-			apply_down_lock(cpu);
-		}
-		dprintk("%s: wakeup boosted.\n", MSM_HOTPLUG);
-	}
-
-	/* Resume hotplug workqueue if required */
-	if (required_reschedule)
-		reschedule_hotplug_work();
-}
-
-static int state_notifier_callback(struct notifier_block *this,
-				unsigned long event, void *data)
-{
-	if (!hotplug.msm_enabled)
-		return NOTIFY_OK;
-
-	switch (event) {
-		case STATE_NOTIFIER_ACTIVE:
-			msm_hotplug_resume();
-			break;
-		case STATE_NOTIFIER_SUSPEND:
-			msm_hotplug_suspend();
-			break;
-		default:
-			break;
-	}
-
-	return NOTIFY_OK;
-}
-#endif
-
 static void hotplug_input_event(struct input_handle *handle, unsigned int type,
 				unsigned int code, int value)
 {
@@ -683,15 +585,6 @@ static int __ref msm_hotplug_start(void)
 		goto err_out;
 	}
 
-#ifdef CONFIG_STATE_NOTIFIER
-	hotplug.notif.notifier_call = state_notifier_callback;
-	if (state_register_client(&hotplug.notif)) {
-		pr_err("%s: Failed to register State notifier callback\n",
-			MSM_HOTPLUG);
-		goto err_dev;
-	}
-#endif
-
 	ret = input_register_handler(&hotplug_input_handler);
 	if (ret) {
 		pr_err("%s: Failed to register input handler: %d\n",
@@ -761,9 +654,6 @@ static void msm_hotplug_stop(void)
 	mutex_destroy(&stats.stats_mutex);
 	kfree(stats.load_hist);
 
-#ifdef CONFIG_STATE_NOTIFIER
-	state_unregister_client(&hotplug.notif);
-#endif
 	hotplug.notif.notifier_call = NULL;
 	input_unregister_handler(&hotplug_input_handler);
 
