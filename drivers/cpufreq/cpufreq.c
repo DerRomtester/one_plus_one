@@ -1303,12 +1303,12 @@ static void cpufreq_out_of_sync(unsigned int cpu, unsigned int old_freq,
  */
 unsigned int cpufreq_quick_get_util(unsigned int cpu)
 {
-	struct cpufreq_policy *policy = __cpufreq_cpu_get(cpu, 0);
+	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
 	unsigned int ret_util = 0;
 
 	if (policy) {
 		ret_util = policy->util;
-		__cpufreq_cpu_put(policy, false);
+		cpufreq_cpu_put(policy);
 	}
 
 	return ret_util;
@@ -1324,17 +1324,12 @@ EXPORT_SYMBOL(cpufreq_quick_get_util);
  */
 unsigned int cpufreq_quick_get(unsigned int cpu)
 {
-	struct cpufreq_policy *policy;
+	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
 	unsigned int ret_freq = 0;
 
-	if (cpufreq_driver && cpufreq_driver->setpolicy && cpufreq_driver->get)
-		ret_freq = cpufreq_driver->get(cpu);
-	else {
-		policy = cpufreq_cpu_get(cpu);
-		if (policy) {
-			ret_freq = policy->cur;
-			cpufreq_cpu_put(policy);
-		}
+	if (policy) {
+		ret_freq = policy->cur;
+		cpufreq_cpu_put(policy);
 	}
 
 	return ret_freq;
