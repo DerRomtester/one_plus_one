@@ -1,4 +1,5 @@
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015 Francisco Franco
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,17 +16,20 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/mutex.h>
-#include <linux/msm_tsens.h>
-#include <linux/workqueue.h>
 #include <linux/cpu.h>
 #include <linux/cpufreq.h>
-#include <linux/msm_tsens.h>
+#include <linux/qpnp/qpnp-adc.h>
 #include <linux/msm_thermal.h>
 #include <linux/platform_device.h>
 #include <linux/of.h>
 
-unsigned int temp_threshold = 70;
+/* Throttle CPU when reaches a certain tempertature*/
+unsigned int temp_threshold = 45;
 module_param(temp_threshold, int, 0644);
+
+/* check every 0.25 seconds for the CPU temperature */
+unsigned int temp_scan_interval = 250;
+module_param(temp_scan_interval, int, 0644);
 
 static struct thermal_info {
 	uint32_t cpuinfo_max_freq;
@@ -44,17 +48,19 @@ static struct thermal_info {
 enum thermal_freqs {
 	FREQ_HELL		= 729600,
 	FREQ_VERY_HOT		= 1036800,
-	FREQ_HOT		= 1267200,
-	FREQ_WARM		= 1497600,
+	FREQ_HOT		= 1497600,
+	FREQ_WARM		= 1728000,
 };
 
 enum threshold_levels {
-	LEVEL_HELL		= 12,
-	LEVEL_VERY_HOT		= 9,
-	LEVEL_HOT		= 5,
+	LEVEL_HELL		= 1 << 4,
+	LEVEL_VERY_HOT		= 1 << 3,
+	LEVEL_HOT		= 1 << 2,
 };
 
-static struct msm_thermal_data msm_thermal_info;
+struct qpnp_vadc_chip *vadc_dev;
+
+enum qpnp_vadc_channels adc_chan;
 
 static struct delayed_work check_temp_work;
 
@@ -89,10 +95,12 @@ static void limit_cpu_freqs(uint32_t max_freq)
 		return;
 
 	info.limited_max_freq = max_freq;
+
 	info.pending_change = true;
 
 	get_online_cpus();
-	for_each_online_cpu(cpu) {
+	for_each_online_cpu(cpu)
+	{
 		cpufreq_update_policy(cpu);
 		pr_info("%s: Setting cpu%d max frequency to %d\n",
 				KBUILD_MODNAME, cpu, info.limited_max_freq);
@@ -104,15 +112,17 @@ static void limit_cpu_freqs(uint32_t max_freq)
 
 static void check_temp(struct work_struct *work)
 {
-	struct tsens_device tsens_dev;
+	struct qpnp_vadc_result result;
 	uint32_t freq = 0;
-	long temp = 0;
+	int64_t temp;
 
-	tsens_dev.sensor_num = msm_thermal_info.sensor_id;
-	tsens_get_temp(&tsens_dev, &temp);
+	qpnp_vadc_read(vadc_dev, adc_chan, &result);
+	temp = result.physical;
 
-	if (info.throttling) {
-		if (temp < (temp_threshold - info.safe_diff)) {
+	if (info.throttling)
+	{
+		if (temp < (temp_threshold - info.safe_diff))
+		{
 			limit_cpu_freqs(info.cpuinfo_max_freq);
 			info.throttling = false;
 			goto reschedule;
@@ -128,7 +138,8 @@ static void check_temp(struct work_struct *work)
 	else if (temp > temp_threshold)
 		freq = FREQ_WARM;
 
-	if (freq) {
+	if (freq)
+	{
 		limit_cpu_freqs(freq);
 
 		if (!info.throttling)
@@ -136,30 +147,26 @@ static void check_temp(struct work_struct *work)
 	}
 
 reschedule:
-	schedule_delayed_work(&check_temp_work, msecs_to_jiffies(250));
+	schedule_delayed_work_on(0, &check_temp_work, msecs_to_jiffies(temp_scan_interval));
 }
 
-static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
+static int msm_thermal_dev_probe(struct platform_device *pdev)
 {
-	int ret = 0;
-	struct device_node *node = pdev->dev.of_node;
-	struct msm_thermal_data data;
+	struct device_node *np = pdev->dev.of_node;
+	int ret;
 
-	memset(&data, 0, sizeof(struct msm_thermal_data));
+	vadc_dev = qpnp_get_vadc(&pdev->dev, "thermal");
 
-	ret = of_property_read_u32(node, "qcom,sensor-id", &data.sensor_id);
-	if (ret)
+	ret = of_property_read_u32(np, "qcom,adc-channel", &adc_chan);
+	if (ret) {
 		return ret;
-
-	WARN_ON(data.sensor_id >= TSENS_MAX_SENSORS);
-
-        memcpy(&msm_thermal_info, &data, sizeof(struct msm_thermal_data));
-
-        INIT_DELAYED_WORK(&check_temp_work, check_temp);
-        schedule_delayed_work(&check_temp_work, 5);
+	}
 
 	cpufreq_register_notifier(&msm_thermal_cpufreq_notifier,
 			CPUFREQ_POLICY_NOTIFIER);
+
+	INIT_DELAYED_WORK(&check_temp_work, check_temp);
+        schedule_delayed_work_on(0, &check_temp_work, 5);
 
 	return ret;
 }
@@ -172,7 +179,7 @@ static int msm_thermal_dev_remove(struct platform_device *pdev)
 }
 
 static struct of_device_id msm_thermal_match_table[] = {
-	{.compatible = "qcom,msm-thermal"},
+	{.compatible = "qcom,msm-thermal-simple"},
 	{},
 };
 
@@ -180,18 +187,18 @@ static struct platform_driver msm_thermal_device_driver = {
 	.probe = msm_thermal_dev_probe,
 	.remove = msm_thermal_dev_remove,
 	.driver = {
-		.name = "msm-thermal",
+		.name = "msm-thermal-simple",
 		.owner = THIS_MODULE,
 		.of_match_table = msm_thermal_match_table,
 	},
 };
 
-static int __init msm_thermal_device_init(void)
+int __init  msm_thermal_device_init(void)
 {
 	return platform_driver_register(&msm_thermal_device_driver);
 }
 
-static void __exit msm_thermal_device_exit(void)
+void __exit msm_thermal_device_exit(void)
 {
 	platform_driver_unregister(&msm_thermal_device_driver);
 }
