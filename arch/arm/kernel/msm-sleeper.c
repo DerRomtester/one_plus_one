@@ -23,7 +23,7 @@
 #define MSM_SLEEPER "msm_sleeper"
 #define MSM_SLEEPER_MAJOR_VERSION	4
 #define MSM_SLEEPER_MINOR_VERSION	0
-#define MSM_SLEEPER_ENABLED		0
+#define MSM_SLEEPER_ENABLED		1
 #define MSM_SLEEPER_DEBUG		0
 #define DELAY				HZ
 #define DEF_UP_THRESHOLD		80
@@ -462,4 +462,3 @@ static void __exit msm_sleeper_exit(void)
 
 late_initcall(msm_sleeper_init);
 module_exit(msm_sleeper_exit);
-
