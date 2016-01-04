@@ -17,6 +17,10 @@ lib-y		:= backtrace.o changebit.o csumipv6.o csumpartial.o   \
 
 mmu-y	:= clear_user.o getuser.o putuser.o
 
+ifeq ($(COMPILER),clang)
+lib-y += eabi.o
+endif
+
 # the code in uaccess.S is not preemption safe and
 # probably faster on ARMv3 only
 ifneq ($(CONFIG_HAS_MACH_MEMUTILS),y)
