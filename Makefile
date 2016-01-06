@@ -246,8 +246,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -pipe -DNDEBUG
+HOSTCXXFLAGS = -O2 -pipe -DNDEBUG
 
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
@@ -353,11 +353,16 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-CFLAGS_MODULE   =
-AFLAGS_MODULE   =
+CFLAGS_MODULE   = $(CFLAGS_KERNEL)
+AFLAGS_MODULE   = $(CFLAGS_KERNEL)
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL	=
-AFLAGS_KERNEL	=
+CFLAGS_KERNEL	= -DNDEBUG -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-gcse \
+		-fsched-spec-load -fsingle-precision-constant -floop-nest-optimize \
+		-fgraphite-identity -ftree-loop-distribution -ftree-loop-im -ftree-loop-ivcanon \
+		-fivopts -ftree-vectorize -ftree-loop-vectorize -fvariable-expansion-in-unroller \
+		-fno-prefetch-loop-arrays -mcpu=cortex-a15 -mtune=cortex-a15 -pipe \
+		-std=gnu89 
+AFLAGS_KERNEL	= $(CFLAGS_KERNEL)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 ifeq ($(COMPILER),clang)
