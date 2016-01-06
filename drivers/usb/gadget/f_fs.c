@@ -2324,7 +2324,7 @@ static int ffs_func_bind(struct usb_configuration *c,
 	const int super = gadget_is_superspeed(func->gadget) &&
 		func->ffs->ss_descs_count;
 
-	int fs_len, hs_len, ret;
+	int fs_len, ret;
 
 	/* Make it a single chunk, less management later on */
 	vla_group(d);
