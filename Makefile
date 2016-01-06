@@ -360,7 +360,7 @@ CFLAGS_KERNEL	= -DNDEBUG -fmodulo-sched -fmodulo-sched-allow-regmoves -fno-gcse 
 		-fsched-spec-load -fsingle-precision-constant -floop-nest-optimize \
 		-fgraphite-identity -ftree-loop-distribution -ftree-loop-im -ftree-loop-ivcanon \
 		-fivopts -ftree-vectorize -ftree-loop-vectorize -fvariable-expansion-in-unroller \
-		-fno-prefetch-loop-arrays -mcpu=cortex-a15 -mtune=cortex-a15 -pipe \
+		-fno-prefetch-loop-arrays -mfpu=neon-vfpv4 -mcpu=cortex-a15 -mtune=cortex-a15 -pipe \
 		-std=gnu89 
 AFLAGS_KERNEL	= $(CFLAGS_KERNEL)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -390,7 +390,7 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
+		   -Werror-implicit-function-declaration $(CFLAGS_KERNEL) \
 		   -Wno-format-security $(CLANG_FLAGS) \
 		   $(call cc-option,-fno-delete-null-pointer-checks,)
 
